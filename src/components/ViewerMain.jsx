@@ -16,8 +16,10 @@ export default class ViewerMain extends React.Component {
     super(props, context);
     this.state = {
       user: null,
+      open: false,
     }
     this.onInventoryChanged = this.onInventoryChanged.bind(this);
+    this.onToggleMenu = this.onToggleMenu.bind(this);
   }
 
   componentDidMount() {
@@ -49,20 +51,37 @@ export default class ViewerMain extends React.Component {
     }
   }
 
+  onToggleMenu(){
+    this.setState({
+      open: !this.state.open,
+    });
+  }
+
   render() {
-    const {user} = this.state;
+    const {user, open} = this.state;
     return (
-      <div className="main-menu-container">
-        <div className="main-menu-header">
-          <NavLink style={{flex:1}} to="/inventory">Inventory</NavLink>
-          <NavLink style={{flex:1}} to="/score-details">Score Details</NavLink>
-          <h1 style={{flex:'auto'}}>{'Score: ' + ((user)? user.score: '')}</h1>
-          <NavLink style={{flex:1}} to="/users">Users</NavLink>
-          <NavLink style={{flex:1}} to="/pending-trades">Trades</NavLink>
-        </div>
+      <div className="main-menu">
         {
-          (user)? <Outlet />: null
+          (open)?
+            <div className="main-menu-container main-menu-container-spawn">
+              <div className="main-menu-header">
+                <NavLink style={{flex:1}} to="/inventory">Inventory</NavLink>
+                <NavLink style={{flex:1}} to="/score-details">Score Details</NavLink>
+                <h1 style={{flex:'auto'}}>{'Score: ' + ((user)? user.score: '')}</h1>
+                <NavLink style={{flex:1}} to="/users">Users</NavLink>
+                <NavLink style={{flex:1}} to="/pending-trades">Trades</NavLink>
+              </div>
+              {
+                (user)? <Outlet />: null
+              }
+            </div>: null
         }
+        <img className="main-menu-toggle"
+             onClick={this.onToggleMenu}
+             src={(open)?
+          (process.env.PUBLIC_URL + '/img/items/funt.png'):
+          (process.env.PUBLIC_URL + '/img/items/funt_shiny.png')}
+        />
       </div>
     );
   }
