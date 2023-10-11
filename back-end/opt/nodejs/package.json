@@ -1,0 +1,16 @@
+{
+  "name": "twitch-stickerstacker-users-query",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "Mico27",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.427.0",
+    "bluebird": "^3.7.2",
+    "jsonwebtoken": "^9.0.2",
+    "node-fetch": "^3.3.2",
+    "underscore": "^1.13.6"
+  }
+}

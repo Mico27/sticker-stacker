@@ -1,0 +1,1167 @@
+{
+  "rarities": {
+    "common": {
+      "id": "common",
+      "order": 1,
+      "color": "#75e0fa",
+      "code": "Γ",
+      "chance": 0.600,
+      "score": 1,
+      "theming": "Getting all the Ls"
+    },
+    "rare": {
+      "id": "rare",
+      "order": 2,
+      "color": "#7dfc78",
+      "code": "Λ",
+      "chance": 0.250,
+      "score": 3,
+      "theming": "Lambda"
+    },
+    "epic": {
+      "id": "epic",
+      "order": 3,
+      "color": "#ffea75",
+      "code": "Σ",
+      "chance": 0.120,
+      "score": 6,
+      "theming": "Sigma behavior"
+    },
+    "legendary": {
+      "id": "legendary",
+      "order": 4,
+      "color": "#FB8F67",
+      "code": "Ω",
+      "chance": 0.025,
+      "score": 25,
+      "theming": "The Alpha and the Omega"
+    },
+    "shiny": {
+      "id": "shiny",
+      "order": 5,
+      "color": "#d45eff",
+      "code": "★",
+      "chance": 0.005,
+      "score": 99,
+      "shiny": true,
+      "theming": "Oooh shiny!"
+    }
+  },
+  "attributes": {
+    "fish": {
+      "id": "fish",
+      "name": "Fish",
+      "theming": "Greater Baiter"
+    },
+    "bronze": {
+      "id": "bronze",
+      "name": "Bronze",
+      "theming": "Third Place"
+    },
+    "snack": {
+      "id": "snack",
+      "name": "Snack",
+      "theming": "Muffin Top"
+    },
+    "cheese": {
+      "id": "cheese",
+      "name": "Cheese",
+      "theming": "Cheesed To Meet You!"
+    },
+    "versus": {
+      "id": "versus",
+      "name": "Versus",
+      "theming": "Who Would Win?"
+    },
+    "claws": {
+      "id": "claws",
+      "name": "Claws",
+      "theming": "Big N' Meaty"
+    },
+    "fried": {
+      "id": "fried",
+      "name": "Fried",
+      "theming": "You Tellin' Me"
+    },
+    "darwin": {
+      "id": "darwin",
+      "name": "Darwin",
+      "theming": "Circle Of Life"
+    },
+    "big": {
+      "id": "big",
+      "name": "Big",
+      "theming": "Head Honchos"
+    },
+    "appetizer": {
+      "id": "appetizer",
+      "name": "Appetizer",
+      "theming": "Soup N' Salad"
+    },
+    "mods": {
+      "id": "mods",
+      "name": "Mods",
+      "theming": "Moderation Tools"
+    },
+    "treasure": {
+      "id": "treasure",
+      "name": "Treasure",
+      "theming": "One Man's Trash"
+    },
+    "gone": {
+      "id": "gone",
+      "name": "Gone",
+      "theming": "Incomplete"
+    },
+    "family": {
+      "id": "family",
+      "name": "Family",
+      "theming": "Lucky There's A Family Guy"
+    },
+    "spanish": {
+      "id": "spanish",
+      "name": "Spanish",
+      "theming": "La Pandilla"
+    },
+    "alcohol": {
+      "id": "alcohol",
+      "name": "Alcohol",
+      "theming": "Drinks On Me"
+    },
+    "four": {
+      "id": "four",
+      "name": "Four",
+      "theming": "Where's The Other Two?"
+    },
+    "bad": {
+      "id": "bad",
+      "name": "Bad",
+      "theming": "Put Your Meat Away"
+    },
+    "gurt": {
+      "id": "gurt",
+      "name": "Gurt",
+      "theming": "Gurt"
+    },
+    "time": {
+      "id": "time",
+      "name": "Time",
+      "theming": "Felt Like Yesterday"
+    },
+    "silly": {
+      "id": "silly",
+      "name": "Silly",
+      "theming": "Hehehe"
+    },
+    "worm": {
+      "id": "worm",
+      "name": "Worm",
+      "theming": "Oh Worm?"
+    },
+    "war": {
+      "id": "war",
+      "name": "War",
+      "theming": "What Is It Good For?"
+    },
+    "friend": {
+      "id": "friend",
+      "name": "Friend",
+      "theming": "Take It Away, Penny!"
+    },
+    "layers": {
+      "id": "layers",
+      "name": "Layers",
+      "theming": "Stacked"
+    },
+    "nuts": {
+      "id": "nuts",
+      "name": "Nuts",
+      "theming": "Got Em'"
+    },
+    "octopus": {
+      "id": "octopus",
+      "name": "Octopus",
+      "theming": "Do Not Touch!"
+    },
+    "feast": {
+      "id": "feast",
+      "name": "Feast",
+      "theming": "Royal Banquet"
+    },
+    "dom": {
+      "id": "dom",
+      "name": "Dom",
+      "theming": "Crush Me"
+    },
+    "ayuda": {
+      "id": "ayuda",
+      "name": "Ayuda",
+      "theming": "Kidnappers"
+    },
+    "school": {
+      "id": "school",
+      "name": "School",
+      "theming": "First Day Of School"
+    },
+    "habitat": {
+      "id": "habitat",
+      "name": "Habitat",
+      "theming": "Nature Is Healing"
+    },
+    "mom": {
+      "id": "mom",
+      "name": "Mom",
+      "theming": "Tu Madre"
+    },
+    "civilization": {
+      "id": "civilization",
+      "name": "Civilization",
+      "theming": "Foundations Of Society"
+    },
+    "tower": {
+      "id": "tower",
+      "name": "Tower",
+      "theming": "Ends In Disaster"
+    },
+    "orb": {
+      "id": "orb",
+      "name": "Orb",
+      "theming": "Pondering"
+    },
+    "file": {
+      "id": "file",
+      "name": "File",
+      "theming": "Filing Cabinet"
+    },
+    "huh": {
+      "id": "huh",
+      "name": "Huh",
+      "theming": "Hard To Pronounce"
+    },
+    "inflation": {
+      "id": "inflation",
+      "name": "Inflation",
+      "theming": "Great Depression"
+    },
+    "gamer": {
+      "id": "gamer",
+      "name": "Gamer",
+      "theming": "Target Audience"
+    },
+    "green": {
+      "id": "green",
+      "name": "Green",
+      "theming": "It's Not Easy Being Green"
+    },
+    "lost": {
+      "id": "lost",
+      "name": "Lost",
+      "theming": "Wait, Is That How It Ended?"
+    },
+    "stoned": {
+      "id": "stoned",
+      "name": "Stoned",
+      "theming": "Rock My World"
+    },
+    "water": {
+      "id": "water",
+      "name": "Water",
+      "theming": "Quench Your Thirst"
+    },
+    "morning": {
+      "id": "morning",
+      "name": "Morning",
+      "theming": "Early Birds Get The Worm"
+    }
+  },
+  "itemTypes": {
+    "2_million_fish": {
+      "id": "2_million_fish",
+      "name": "2 Million Fish",
+      "rarity": "rare",
+      "attributes": [
+        "fish",
+        "versus",
+        "orb"
+      ]
+    },
+    "1939": {
+      "id": "1939",
+      "name": "1939",
+      "rarity": "epic",
+      "attributes": [
+        "fish",
+        "time",
+        "war",
+        "inflation"
+      ]
+    },
+    "banana": {
+      "id": "banana",
+      "name": "Banana",
+      "rarity": "common",
+      "attributes": [
+        "fish",
+        "darwin"
+      ]
+    },
+    "big_pimp": {
+      "id": "big_pimp",
+      "name": "Big Pimp",
+      "rarity": "common",
+      "attributes": [
+        "fish",
+        "big"
+      ]
+    },
+    "booplio": {
+      "id": "booplio",
+      "name": "Booplio",
+      "rarity": "common",
+      "attributes": [
+        "fish",
+        "habitat"
+      ]
+    },
+    "cobble_on_deez": {
+      "id": "cobble_on_deez",
+      "name": "Cobble On Deez",
+      "rarity": "rare",
+      "attributes": [
+        "fish",
+        "treasure",
+        "nuts"
+      ]
+    },
+    "folder_4": {
+      "id": "folder_4",
+      "name": "Folder 4",
+      "rarity": "epic",
+      "attributes": [
+        "fish",
+        "four",
+        "octopus",
+        "file"
+      ]
+    },
+    "funt": {
+      "id": "funt",
+      "name": "Funt",
+      "rarity": "common",
+      "attributes": [
+        "fish",
+        "feast"
+      ]
+    },
+    "gurt_urt_rt_t": {
+      "id": "gurt_urt_rt_t",
+      "name": "Gurt Urt Rt T",
+      "rarity": "rare",
+      "attributes": [
+        "fish",
+        "gurt",
+        "huh"
+      ]
+    },
+    "joe": {
+      "id": "joe",
+      "name": "Joe",
+      "rarity": "common",
+      "attributes": [
+        "fish",
+        "mom"
+      ]
+    },
+    "leenis": {
+      "id": "leenis",
+      "name": "Leenis",
+      "rarity": "common",
+      "attributes": [
+        "fish",
+        "worm"
+      ]
+    },
+    "lopta": {
+      "id": "lopta",
+      "name": "Lopta",
+      "rarity": "rare",
+      "attributes": [
+        "fish",
+        "claws",
+        "bad"
+      ]
+    },
+    "missing_child": {
+      "id": "missing_child",
+      "name": "Missing Child",
+      "rarity": "legendary",
+      "attributes": [
+        "fish",
+        "family",
+        "ayuda",
+        "lost",
+        "gamer"
+      ]
+    },
+    "nomega_3": {
+      "id": "nomega_3",
+      "name": "Nomega 3",
+      "rarity": "common",
+      "attributes": [
+        "fish",
+        "gone"
+      ]
+    },
+    "oh_p_yum": {
+      "id": "oh_p_yum",
+      "name": "Oh P. Yum",
+      "rarity": "epic",
+      "attributes": [
+        "fish",
+        "friend",
+        "school",
+        "stoned"
+      ]
+    },
+    "senor_cangrejo": {
+      "id": "senor_cangrejo",
+      "name": "Señor Cangrejo",
+      "rarity": "rare",
+      "attributes": [
+        "fish",
+        "claws",
+        "spanish"
+      ]
+    },
+    "sharp": {
+      "id": "sharp",
+      "name": "Sharp",
+      "rarity": "common",
+      "attributes": [
+        "fish",
+        "cheese"
+      ]
+    },
+    "shrimf": {
+      "id": "shrimf",
+      "name": "Shrimf",
+      "rarity": "common",
+      "attributes": [
+        "fish",
+        "fried"
+      ]
+    },
+    "six_pack": {
+      "id": "six_pack",
+      "name": "Six Pack",
+      "rarity": "epic",
+      "attributes": [
+        "fish",
+        "alcohol",
+        "dom",
+        "green"
+      ]
+    },
+    "the_grundler": {
+      "id": "the_grundler",
+      "name": "The Grundler",
+      "rarity": "common",
+      "attributes": [
+        "fish",
+        "silly"
+      ]
+    },
+    "big_scrote": {
+      "id": "big_scrote",
+      "name": "Big Scrote",
+      "rarity": "legendary",
+      "attributes": [
+        "bronze",
+        "big",
+        "silly",
+        "nuts",
+        "stoned"
+      ]
+    },
+    "curse_of_paw": {
+      "id": "curse_of_paw",
+      "name": "Curse of Paw",
+      "rarity": "rare",
+      "attributes": [
+        "bronze",
+        "claws",
+        "feast"
+      ]
+    },
+    "epic_of_gilgamesh": {
+      "id": "epic_of_gilgamesh",
+      "name": "Epic of Gilgamesh",
+      "rarity": "rare",
+      "attributes": [
+        "bronze",
+        "gone",
+        "file"
+      ]
+    },
+    "f_1bc": {
+      "id": "f_1bc",
+      "name": "F-1BC",
+      "rarity": "common",
+      "attributes": [
+        "bronze",
+        "time"
+      ]
+    },
+    "hammurabi_code": {
+      "id": "hammurabi_code",
+      "name": "Hammurabi's Code",
+      "rarity": "common",
+      "attributes": [
+        "bronze",
+        "civilization"
+      ]
+    },
+    "los_bandidos": {
+      "id": "los_bandidos",
+      "name": "Los Bandidos",
+      "rarity": "epic",
+      "attributes": [
+        "bronze",
+        "spanish",
+        "ayuda",
+        "morning"
+      ]
+    },
+    "low_grade_copper": {
+      "id": "low_grade_copper",
+      "name": "Low Grade Copper",
+      "rarity": "common",
+      "attributes": [
+        "bronze",
+        "treasure"
+      ]
+    },
+    "mule": {
+      "id": "mule",
+      "name": "Mule",
+      "rarity": "common",
+      "attributes": [
+        "bronze",
+        "darwin"
+      ]
+    },
+    "my_allowance": {
+      "id": "my_allowance",
+      "name": "My Allowance",
+      "rarity": "rare",
+      "attributes": [
+        "bronze",
+        "friend",
+        "inflation"
+      ]
+    },
+    "my_wife": {
+      "id": "my_wife",
+      "name": "My Wife",
+      "rarity": "epic",
+      "attributes": [
+        "bronze",
+        "family",
+        "dom",
+        "mom"
+      ]
+    },
+    "plague_of_frogs": {
+      "id": "plague_of_frogs",
+      "name": "Plague of Frogs",
+      "rarity": "rare",
+      "attributes": [
+        "bronze",
+        "versus",
+        "green"
+      ]
+    },
+    "quetzalcoatl": {
+      "id": "quetzalcoatl",
+      "name": "Quetzalcoatl",
+      "rarity": "rare",
+      "attributes": [
+        "bronze",
+        "worm",
+        "huh"
+      ]
+    },
+    "sobek": {
+      "id": "sobek",
+      "name": "Sobek",
+      "rarity": "common",
+      "attributes": [
+        "bronze",
+        "claws"
+      ]
+    },
+    "the_nile": {
+      "id": "the_nile",
+      "name": "The Nile",
+      "rarity": "epic",
+      "attributes": [
+        "bronze",
+        "habitat",
+        "orb",
+        "water"
+      ]
+    },
+    "tower_of_babel": {
+      "id": "tower_of_babel",
+      "name": "Tower of Babel",
+      "rarity": "common",
+      "attributes": [
+        "bronze",
+        "tower"
+      ]
+    },
+    "trojan_borsh": {
+      "id": "trojan_borsh",
+      "name": "Trojan Borsh",
+      "rarity": "common",
+      "attributes": [
+        "bronze",
+        "appetizer"
+      ]
+    },
+    "unban_request": {
+      "id": "unban_request",
+      "name": "Unban Request",
+      "rarity": "common",
+      "attributes": [
+        "bronze",
+        "mods"
+      ]
+    },
+    "wheat": {
+      "id": "wheat",
+      "name": "Wheat",
+      "rarity": "common",
+      "attributes": [
+        "bronze",
+        "alcohol"
+      ]
+    },
+    "wowie_zowie": {
+      "id": "wowie_zowie",
+      "name": "Wowie Zowie",
+      "rarity": "common",
+      "attributes": [
+        "bronze",
+        "war"
+      ]
+    },
+    "ziggurat_of_ur": {
+      "id": "ziggurat_of_ur",
+      "name": "Ziggurat Of Ur",
+      "rarity": "epic",
+      "attributes": [
+        "bronze",
+        "cheese",
+        "layers",
+        "gurt"
+      ]
+    },
+    "big_green": {
+      "id": "big_green",
+      "name": "Big Green",
+      "rarity": "epic",
+      "attributes": [
+        "snack",
+        "claws",
+        "big",
+        "appetizer"
+      ]
+    },
+    "consent": {
+      "id": "consent",
+      "name": "Consent",
+      "rarity": "common",
+      "attributes": [
+        "snack",
+        "bad"
+      ]
+    },
+    "deep_mish": {
+      "id": "deep_mish",
+      "name": "Deep Mish",
+      "rarity": "common",
+      "attributes": [
+        "snack",
+        "cheese"
+      ]
+    },
+    "elote": {
+      "id": "elote",
+      "name": "Elote",
+      "rarity": "common",
+      "attributes": [
+        "snack",
+        "spanish"
+      ]
+    },
+    "found_nemo": {
+      "id": "found_nemo",
+      "name": "Found Nemo",
+      "rarity": "rare",
+      "attributes": [
+        "snack",
+        "school",
+        "lost"
+      ]
+    },
+    "funt_nt": {
+      "id": "funt_nt",
+      "name": "Funt'nt",
+      "rarity": "common",
+      "attributes": [
+        "snack",
+        "feast"
+      ]
+    },
+    "g_fuel": {
+      "id": "g_fuel",
+      "name": "G Fuel",
+      "rarity": "epic",
+      "attributes": [
+        "snack",
+        "darwin",
+        "stoned",
+        "gamer"
+      ]
+    },
+    "gag_up": {
+      "id": "gag_up",
+      "name": "Gag Up",
+      "rarity": "common",
+      "attributes": [
+        "snack",
+        "nuts"
+      ]
+    },
+    "heat_death": {
+      "id": "heat_death",
+      "name": "Heat Death",
+      "rarity": "common",
+      "attributes": [
+        "snack",
+        "octopus"
+      ]
+    },
+    "i_should_call_her": {
+      "id": "i_should_call_her",
+      "name": "I Should Call Her",
+      "rarity": "legendary",
+      "attributes": [
+        "snack",
+        "dom",
+        "orb",
+        "water",
+        "green"
+      ]
+    },
+    "inflation": {
+      "id": "inflation",
+      "name": "Inflation",
+      "rarity": "epic",
+      "attributes": [
+        "snack",
+        "friend",
+        "silly",
+        "inflation"
+      ]
+    },
+    "liquid_courage": {
+      "id": "liquid_courage",
+      "name": "Liquid Courage",
+      "rarity": "rare",
+      "attributes": [
+        "snack",
+        "alcohol",
+        "civilization"
+      ]
+    },
+    "number_4": {
+      "id": "number_4",
+      "name": "Number 4",
+      "rarity": "epic",
+      "attributes": [
+        "snack",
+        "claws",
+        "fried",
+        "four"
+      ]
+    },
+    "scholastic": {
+      "id": "scholastic",
+      "name": "Scholastic",
+      "rarity": "common",
+      "attributes": [
+        "snack",
+        "mods"
+      ]
+    },
+    "sour_samuel": {
+      "id": "sour_samuel",
+      "name": "Sour Samuel",
+      "rarity": "rare",
+      "attributes": [
+        "snack",
+        "worm",
+        "morning"
+      ]
+    },
+    "unlimited_breadsticks": {
+      "id": "unlimited_breadsticks",
+      "name": "Unlimited Breadsticks",
+      "rarity": "common",
+      "attributes": [
+        "snack",
+        "versus"
+      ]
+    },
+    "wake": {
+      "id": "wake",
+      "name": "Wake",
+      "rarity": "rare",
+      "attributes": [
+        "snack",
+        "layers",
+        "tower"
+      ]
+    },
+    "wingless_bone": {
+      "id": "wingless_bone",
+      "name": "Wingless Bone",
+      "rarity": "rare",
+      "attributes": [
+        "snack",
+        "treasure",
+        "gone"
+      ]
+    },
+    "xorovats": {
+      "id": "xorovats",
+      "name": "Xorovats",
+      "rarity": "common",
+      "attributes": [
+        "snack",
+        "war"
+      ]
+    },
+    "yo_gurt": {
+      "id": "yo_gurt",
+      "name": "Yo! Gurt!",
+      "rarity": "common",
+      "attributes": [
+        "snack",
+        "gurt"
+      ]
+    },
+    "2_million_fish_shiny": {
+      "id": "2_million_fish_shiny",
+      "name": "2 Million Fish",
+      "rarity": "shiny"
+    },
+    "1939_shiny": {
+      "id": "1939_shiny",
+      "name": "1939",
+      "rarity": "shiny"
+    },
+    "banana_shiny": {
+      "id": "banana_shiny",
+      "name": "Banana",
+      "rarity": "shiny"
+    },
+    "big_pimp_shiny": {
+      "id": "big_pimp_shiny",
+      "name": "Big Pimp",
+      "rarity": "shiny"
+    },
+    "booplio_shiny": {
+      "id": "booplio_shiny",
+      "name": "Booplio",
+      "rarity": "shiny"
+    },
+    "cobble_on_deez_shiny": {
+      "id": "cobble_on_deez_shiny",
+      "name": "Cobble On Deez",
+      "rarity": "shiny"
+    },
+    "folder_4_shiny": {
+      "id": "folder_4_shiny",
+      "name": "Folder 4",
+      "rarity": "shiny"
+    },
+    "funt_shiny": {
+      "id": "funt_shiny",
+      "name": "Funt",
+      "rarity": "shiny"
+    },
+    "gurt_urt_rt_t_shiny": {
+      "id": "gurt_urt_rt_t_shiny",
+      "name": "Gurt Urt Rt T",
+      "rarity": "shiny"
+    },
+    "joe_shiny": {
+      "id": "joe_shiny",
+      "name": "Joe",
+      "rarity": "shiny"
+    },
+    "leenis_shiny": {
+      "id": "leenis_shiny",
+      "name": "Leenis",
+      "rarity": "shiny"
+    },
+    "lopta_shiny": {
+      "id": "lopta_shiny",
+      "name": "Lopta",
+      "rarity": "shiny"
+    },
+    "missing_child_shiny": {
+      "id": "missing_child_shiny",
+      "name": "Missing Child",
+      "rarity": "shiny"
+    },
+    "nomega_3_shiny": {
+      "id": "nomega_3_shiny",
+      "name": "Nomega 3",
+      "rarity": "shiny"
+    },
+    "oh_p_yum_shiny": {
+      "id": "oh_p_yum_shiny",
+      "name": "Oh P. Yum",
+      "rarity": "shiny"
+    },
+    "senor_cangrejo_shiny": {
+      "id": "senor_cangrejo_shiny",
+      "name": "Señor Cangrejo",
+      "rarity": "shiny"
+    },
+    "sharp_shiny": {
+      "id": "sharp_shiny",
+      "name": "Sharp",
+      "rarity": "shiny"
+    },
+    "shrimf_shiny": {
+      "id": "shrimf_shiny",
+      "name": "Shrimf",
+      "rarity": "shiny"
+    },
+    "six_pack_shiny": {
+      "id": "six_pack_shiny",
+      "name": "Six Pack",
+      "rarity": "shiny"
+    },
+    "the_grundler_shiny": {
+      "id": "the_grundler_shiny",
+      "name": "The Grundler",
+      "rarity": "shiny"
+    },
+    "big_scrote_shiny": {
+      "id": "big_scrote_shiny",
+      "name": "Big Scrote",
+      "rarity": "shiny"
+    },
+    "curse_of_paw_shiny": {
+      "id": "curse_of_paw_shiny",
+      "name": "Curse of Paw",
+      "rarity": "shiny"
+    },
+    "epic_of_gilgamesh_shiny": {
+      "id": "epic_of_gilgamesh_shiny",
+      "name": "Epic of Gilgamesh",
+      "rarity": "shiny"
+    },
+    "f_1bc_shiny": {
+      "id": "f_1bc_shiny",
+      "name": "F-1BC",
+      "rarity": "shiny"
+    },
+    "hammurabi_code_shiny": {
+      "id": "hammurabi_code_shiny",
+      "name": "Hammurabi's Code",
+      "rarity": "shiny"
+    },
+    "los_bandidos_shiny": {
+      "id": "los_bandidos_shiny",
+      "name": "Los Bandidos",
+      "rarity": "shiny"
+    },
+    "low_grade_copper_shiny": {
+      "id": "low_grade_copper_shiny",
+      "name": "Low Grade Copper",
+      "rarity": "shiny"
+    },
+    "mule_shiny": {
+      "id": "mule_shiny",
+      "name": "Mule",
+      "rarity": "shiny"
+    },
+    "my_allowance_shiny": {
+      "id": "my_allowance_shiny",
+      "name": "My Allowance",
+      "rarity": "shiny"
+    },
+    "my_wife_shiny": {
+      "id": "my_wife_shiny",
+      "name": "My Wife",
+      "rarity": "shiny"
+    },
+    "plague_of_frogs_shiny": {
+      "id": "plague_of_frogs_shiny",
+      "name": "Plague of Frogs",
+      "rarity": "shiny"
+    },
+    "quetzalcoatl_shiny": {
+      "id": "quetzalcoatl_shiny",
+      "name": "Quetzalcoatl",
+      "rarity": "shiny"
+    },
+    "sobek_shiny": {
+      "id": "sobek_shiny",
+      "name": "Sobek",
+      "rarity": "shiny"
+    },
+    "the_nile_shiny": {
+      "id": "the_nile_shiny",
+      "name": "The Nile",
+      "rarity": "shiny"
+    },
+    "tower_of_babel_shiny": {
+      "id": "tower_of_babel_shiny",
+      "name": "Tower of Babel",
+      "rarity": "shiny"
+    },
+    "trojan_borsh_shiny": {
+      "id": "trojan_borsh_shiny",
+      "name": "Trojan Borsh",
+      "rarity": "shiny"
+    },
+    "unban_request_shiny": {
+      "id": "unban_request_shiny",
+      "name": "Unban Request",
+      "rarity": "shiny"
+    },
+    "wheat_shiny": {
+      "id": "wheat_shiny",
+      "name": "Wheat",
+      "rarity": "shiny"
+    },
+    "wowie_zowie_shiny": {
+      "id": "wowie_zowie_shiny",
+      "name": "Wowie Zowie",
+      "rarity": "shiny"
+    },
+    "ziggurat_of_ur_shiny": {
+      "id": "ziggurat_of_ur_shiny",
+      "name": "Ziggurat Of Ur",
+      "rarity": "shiny"
+    },
+    "big_green_shiny": {
+      "id": "big_green_shiny",
+      "name": "Big Green",
+      "rarity": "shiny"
+    },
+    "consent_shiny": {
+      "id": "consent_shiny",
+      "name": "Consent",
+      "rarity": "shiny"
+    },
+    "deep_mish_shiny": {
+      "id": "deep_mish_shiny",
+      "name": "Deep Mish",
+      "rarity": "shiny"
+    },
+    "elote_shiny": {
+      "id": "elote_shiny",
+      "name": "Elote",
+      "rarity": "shiny"
+    },
+    "found_nemo_shiny": {
+      "id": "found_nemo_shiny",
+      "name": "Found Nemo",
+      "rarity": "shiny"
+    },
+    "funt_nt_shiny": {
+      "id": "funt_nt_shiny",
+      "name": "Funt'nt",
+      "rarity": "shiny"
+    },
+    "g_fuel_shiny": {
+      "id": "g_fuel_shiny",
+      "name": "G Fuel",
+      "rarity": "shiny"
+    },
+    "gag_up_shiny": {
+      "id": "gag_up_shiny",
+      "name": "Gag Up",
+      "rarity": "shiny"
+    },
+    "heat_death_shiny": {
+      "id": "heat_death_shiny",
+      "name": "Heat Death",
+      "rarity": "shiny"
+    },
+    "i_should_call_her_shiny": {
+      "id": "i_should_call_her_shiny",
+      "name": "I Should Call Her",
+      "rarity": "shiny"
+    },
+    "inflation_shiny": {
+      "id": "inflation_shiny",
+      "name": "Inflation",
+      "rarity": "shiny"
+    },
+    "liquid_courage_shiny": {
+      "id": "liquid_courage_shiny",
+      "name": "Liquid Courage",
+      "rarity": "shiny"
+    },
+    "number_4_shiny": {
+      "id": "number_4_shiny",
+      "name": "Number 4",
+      "rarity": "shiny"
+    },
+    "scholastic_shiny": {
+      "id": "scholastic_shiny",
+      "name": "Scholastic",
+      "rarity": "shiny"
+    },
+    "sour_samuel_shiny": {
+      "id": "sour_samuel_shiny",
+      "name": "Sour Samuel",
+      "rarity": "shiny"
+    },
+    "unlimited_breadsticks_shiny": {
+      "id": "unlimited_breadsticks_shiny",
+      "name": "Unlimited Breadsticks",
+      "rarity": "shiny"
+    },
+    "wake_shiny": {
+      "id": "wake_shiny",
+      "name": "Wake",
+      "rarity": "shiny"
+    },
+    "wingless_bone_shiny": {
+      "id": "wingless_bone_shiny",
+      "name": "Wingless Bone",
+      "rarity": "shiny"
+    },
+    "xorovats_shiny": {
+      "id": "xorovats_shiny",
+      "name": "Xorovats",
+      "rarity": "shiny"
+    },
+    "yo_gurt_shiny": {
+      "id": "yo_gurt_shiny",
+      "name": "Yo! Gurt!",
+      "rarity": "shiny"
+    }
+  }
+}
