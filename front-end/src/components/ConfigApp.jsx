@@ -1,45 +1,85 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { MemoryRouter, Route, Routes, Navigate } from "react-router-dom";
-import ViewerMain from "./ViewerMain.jsx";
-import Inventory from "./Inventory.jsx";
-import Users from "./Users.jsx";
-import Trade from "./Trade.jsx";
-import PendingTrades from "./PendingTrades.jsx";
-import ScoreDetails from "./ScoreDetails.jsx";
-import ApiHandler from "../classes/ApiHandler";
+import {SyncLoader} from "react-spinners";
 
 export default class ConfigApp extends React.Component {
 
-  static childContextTypes = {
-    apiHandler: PropTypes.object, // Api handler
-  };
-
   constructor(props, context) {
     super(props, context);
-    this.apiHandler = new ApiHandler();
+    this.state = {
+      configData: null,
+      error: null,
+    };
+    this.twitch = window.Twitch ? window.Twitch.ext : null;
+    this.onAskAuth = this.onAskAuth.bind(this);
   }
 
-  getChildContext() {
-    return {
-      apiHandler: this.apiHandler,
-    };
+  componentDidMount() {
+    if (this.twitch){
+      this.twitch.onAuthorized((auth)=>{
+        this.auth = auth;
+        this.loadConfig();
+      });
+      //this.twitch.onContext((context,delta)=>{
+        //this.contextUpdate(context,delta)
+      //});
+    }
+  }
+
+  loadConfig(){
+    fetch('https://localhost/config-get', {
+      method: 'GET',
+      headers: {
+        authorization: 'Bearer ' + this.auth.token
+      }
+    }).then((res)=>{
+      if (res.ok){
+        return res.json();
+      } else {
+        res.text().then((error)=>{
+          throw new Error(error);
+        });
+      }
+    }).then((configData)=>{
+      this.setState({
+        configData: configData
+      });
+    }).catch((error)=>{
+      this.setState({
+        error: error,
+      });
+    });
+  }
+
+  onAskAuth(){
+    const scope = encodeURIComponent('channel:manage:redemptions');
+    const redirectUri = 'https://localhost/twitch-oauth-register';
+    const clientId = '3f3zyq04l5wxb7m1xhfmwnpj2bbfun';
+    const oAuthURL = `https://id.twitch.tv/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}`;
+    const win = window.open(oAuthURL, 'twitch authorization', 'width=972,height=660,modal=yes,alwaysRaised=yes');
+    const checkConnect = setInterval(() => {
+      if (!win || !win.closed) return;
+      clearInterval(checkConnect);
+      this.loadConfig();
+    }, 100);
   }
 
   render() {
+    const {configData, error} = this.state;
     return (
-      <MemoryRouter>
-        <Routes>
-          <Route path="/" element={<ViewerMain/>}>
-            <Route index element={<Navigate to="/inventory" replace/>}/>
-            <Route path="inventory" element={<Inventory/>}/>
-            <Route path="users" element={<Users/>}/>
-            <Route path="trade" element={<Trade/>}/>
-            <Route path="pending-trades" element={<PendingTrades/>}/>
-            <Route path="score-details" element={<ScoreDetails/>}/>
-          </Route>
-        </Routes>
-      </MemoryRouter>
+      <div>
+        {(error)?
+          <div>{error}</div>:
+          (!configData)?
+          <SyncLoader color="#36d7b7" />:
+          (configData.requireAuth) ?
+            <div>
+              <button type="button" onClick={this.onAskAuth}>Get twitch authorization</button>
+            </div> :
+          <div>
+            Connected
+          </div>
+        }
+      </div>
     );
   }
 }

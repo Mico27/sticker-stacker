@@ -21,7 +21,8 @@ const getUser = async (access_token)=>{
   const response = await fetch('https://api.twitch.tv/helix/users', {
     method: 'GET',
     headers: {
-      authorization: 'Bearer ' + access_token
+      'client-id': process.env.client_id,
+      'Authorization': 'Bearer ' + access_token
     }
   });
   if (!response.ok){
@@ -32,7 +33,7 @@ const getUser = async (access_token)=>{
 
 const registerUserToken = async (user, token)=>{
   await client.send(new UpdateItemCommand({
-    "TableName": "Twitch-Ext-StickerStacker-channels",
+    "TableName": "Twitch-Ext-StickerStacker-Channels",
     "Key": {
       "channelId": {
         "S": user.id

@@ -2,96 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ce12c62-27fc-4c79-9470-c9dff78fcfc2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dev.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/0fa1e28155dc554df71b.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/366ad61199849f0825eb.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/config.bundle.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/config.bundle.js.LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/config.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/core.bundle.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/core.bundle.js.LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/live_config.bundle.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/live_config.bundle.js.LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/live_config.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/panel.bundle.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/panel.bundle.js.LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/panel.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/1939.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/1939_shiny.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/2_million_fish.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/2_million_fish_shiny.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/banana.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/banana_shiny.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/big_pimp.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/big_pimp_shiny.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/booplio.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/booplio_shiny.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/cobble_on_deez.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/cobble_on_deez_shiny.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/folder_4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/folder_4_shiny.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/funt.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/funt_shiny.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/gurt_urt_rt_t.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/gurt_urt_rt_t_shiny.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/joe.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/joe_shiny.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/leenis.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/leenis_shiny.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/lopta.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/lopta_shiny.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/missing_child.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/missing_child_shiny.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/nomega_3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/nomega_3_shiny.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/oh_p_yum.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/oh_p_yum_shiny.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/senor_cangrejo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/senor_cangrejo_shiny.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/sharp.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/sharp_shiny.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/shrimf.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/shrimf_shiny.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/six_pack.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/six_pack_shiny.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/the_grundler.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/items/the_grundler_shiny.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/public/img/sparkles.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Config.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LiveConfig.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Panel.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/classes/ApiHandler.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/classes/EventListener.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/classes/Utils.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Inventory.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/InventorySlot.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/LazyLoader.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Modal.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/PendingTradeSlot.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/PendingTrades.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ScoreDetailItem.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ScoreDetailTheme.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ScoreDetails.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ShinyEffect.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Sticker.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/StickerStack.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Trade.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/TradeInventorySection.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/TradeInventorySectionSlot.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/TradeItemsSection.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/TradeItemsSectionSlot.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/UserSlot.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Users.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ViewerApp.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ViewerMain.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/mockupData.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webpack.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/twitch-oauth-register/index.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/twitch-oauth-register/index.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/ConfigApp.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/ConfigApp.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,9 +28,14 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../jc/dev/src/JEWebApp/JEWebApp" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\extention\sticker-stacker\front-end\src\components" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -125,7 +45,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1697067319013</updated>
-      <workItem from="1697067322846" duration="363000" />
+      <workItem from="1697067322846" duration="45956000" />
     </task>
     <servers />
   </component>
