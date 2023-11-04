@@ -266,31 +266,35 @@ const deleteWebhook = async (channelId, webhookId) => {
 }
 
 export const handler = async (event) => {
-  let secret = getSecret();
-  let message = getHmacMessage(event);
-  let hmac = HMAC_PREFIX + getHmac(secret, message);  // Signature to compare
-  if (true === verifyMessage(hmac, event.headers[TWITCH_MESSAGE_SIGNATURE])) {
-    let notification = JSON.parse(event.body);
-    if (MESSAGE_TYPE_NOTIFICATION === event.headers[MESSAGE_TYPE]) {
-      if (notification.subscription.type === "channel.channel_points_custom_reward_redemption.add"){
-        await addSingleRandomInventoryItem(notification.event.broadcaster_user_id, notification.event.user_id, notification.event.reward.id);
+  try {
+    let secret = getSecret();
+    let message = getHmacMessage(event);
+    let hmac = HMAC_PREFIX + getHmac(secret, message);  // Signature to compare
+    if (true === verifyMessage(hmac, event.headers[TWITCH_MESSAGE_SIGNATURE])) {
+      let notification = JSON.parse(event.body);
+      if (MESSAGE_TYPE_NOTIFICATION === event.headers[MESSAGE_TYPE]) {
+        if (notification.subscription.type === "channel.channel_points_custom_reward_redemption.add") {
+          await addSingleRandomInventoryItem(notification.event.broadcaster_user_id, notification.event.user_id, notification.event.reward.id);
+        }
+        return getResponse(event, {statusCode: 204});
+      } else if (MESSAGE_TYPE_VERIFICATION === event.headers[MESSAGE_TYPE]) {
+        return getResponse(event, {
+          statusCode: 200,
+          body: notification.challenge,
+          headers: {'Content-Type': 'text/plain'}
+        });
+      } else if (MESSAGE_TYPE_REVOCATION === event.headers[MESSAGE_TYPE]) {
+        if (notification.subscription.type === "channel.channel_points_custom_reward_redemption.add") {
+          await deleteWebhook(notification.subscription.condition.broadcaster_user_id, notification.subscription.id);
+        }
+        return getResponse(event, {statusCode: 204});
+      } else {
+        return getResponse(event, {statusCode: 204});
       }
-      return getResponse(event, {statusCode: 204});
+    } else {
+      return getResponse(event, {statusCode: 403});
     }
-    else if (MESSAGE_TYPE_VERIFICATION === event.headers[MESSAGE_TYPE]) {
-      return getResponse(event, {statusCode: 200, body:notification.challenge, headers:{ 'Content-Type': 'text/plain' }});
-    }
-    else if (MESSAGE_TYPE_REVOCATION === event.headers[MESSAGE_TYPE]) {
-      if (notification.subscription.type === "channel.channel_points_custom_reward_redemption.add"){
-        await deleteWebhook(notification.subscription.condition.broadcaster_user_id, notification.subscription.id);
-      }
-      return getResponse(event, {statusCode: 204});
-    }
-    else {
-      return getResponse(event, {statusCode: 204});
-    }
-  }
-  else {
-    return getResponse(event, {statusCode: 403});
+  } catch (err) {
+    return getResponse(event, {statusCode: 500, body: err.message});
   }
 };
