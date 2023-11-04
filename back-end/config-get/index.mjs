@@ -1,6 +1,7 @@
 import { DynamoDBClient, GetItemCommand } from "@aws-sdk/client-dynamodb";
 import {validateAuth, getResponse, refreshToken, RequireTwitchAuthError, ApiError} from "../opt/nodejs/utils.mjs";
 import {map, indexBy} from "underscore";
+import fetch from 'node-fetch';
 
 const client = new DynamoDBClient({ region: 'us-east-2' });
 

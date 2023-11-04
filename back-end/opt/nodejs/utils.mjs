@@ -1,5 +1,6 @@
 import jsonwebtoken from 'jsonwebtoken';
 import {UpdateItemCommand} from "@aws-sdk/client-dynamodb";
+import fetch from 'node-fetch';
 
 export class ApiError extends Error {
   constructor(message, statusCode) {
