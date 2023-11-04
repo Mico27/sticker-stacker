@@ -1,29 +1,46 @@
 import { DynamoDBClient, QueryCommand } from "@aws-sdk/client-dynamodb";
-import {validateAuth, getResponse} from "../opt/nodejs/utils.mjs";
+import {validateAuth, getResponse, ApiError} from "../opt/nodejs/utils.mjs";
+import {forEach} from "underscore";
 
 const client = new DynamoDBClient({ region: 'us-east-2' });
 
-const getInventory = async (channelId, userId, limit, exclusiveStartKey) => {
-  const result = await client.send(new QueryCommand({
-    TableName: 'Twitch-Ext-StickerStacker-Inventory',
-    ExclusiveStartKey: exclusiveStartKey,
-    Limit: limit,
-    KeyConditionExpression: 'channelId-userId = :v1',
-    ExpressionAttributeValues: {
-      ':v1': {
-        'S': (channelId + '-' + userId)
+const getInventory = async (channelId, userId) => {
+  let result = undefined;
+  let accumulated = {};
+  let exclusiveStartKey = undefined;
+  do {
+    result = await client.send(new QueryCommand({
+      "TableName": "Twitch-Ext-StickerStacker-Inventory",
+      "ExclusiveStartKey": exclusiveStartKey,
+      "ExpressionAttributeValues": {
+        ":A": {
+          "S": (channelId + '-' + userId)
+        }
       },
-    },
-  }));
-  return {items: result.Items, lastEvaluatedKey: result.LastEvaluatedKey};
+      "KeyConditionExpression": "channelId-userId = :A",
+      "ProjectionExpression": "itemId, amount",
+    }));
+    exclusiveStartKey = result.LastEvaluatedKey;
+    forEach(result.Items || [], (item)=>{
+      accumulated[item.itemId.S] = Number(item.amount.N)
+    })
+  } while (result.Items.length || result.LastEvaluatedKey);
+  return accumulated;
 };
 
 export const handler = async (event, context) => {
-  const auth = validateAuth(event.headers.Authorization);
-  if (auth.err) return getResponse(event, {statusCode: 401, body: JSON.stringify(auth)});
-  const body = JSON.parse(event.body) || { limit: 100 };
-  // Get users from database.
-  const inventory = await getInventory(auth.channel_id, body.sortKey, body.limit, body.exclusiveStartKey);
-  if (!inventory) return getResponse(event, {statusCode: 500, body: 'Internal Server Error'});
-  return getResponse(event, {statusCode: 200, body: JSON.stringify(inventory)});
+  try {
+    const auth = validateAuth(event.headers.Authorization);
+    const user_id = event.queryStringParameters.user_id || auth.user_id;
+    const inventory = await getInventory(auth.channel_id, user_id);
+    return getResponse(event, {statusCode: 200, body: JSON.stringify(inventory)});
+  }
+  catch (err){
+    console.error(err);
+    if (err instanceof ApiError) {
+      return getResponse(event, {statusCode: err.statusCode, body: err.message});
+    } else {
+      return getResponse(event, {statusCode: 500, body: err.message});
+    }
+  }
 };

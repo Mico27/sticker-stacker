@@ -1,10 +1,10 @@
-import { DynamoDBClient, GetItemCommand, UpdateItemCommand } from "@aws-sdk/client-dynamodb";
-import {validateAuth, getResponse} from "../opt/nodejs/utils.mjs";
-import {map} from "underscore";
+import { DynamoDBClient, GetItemCommand } from "@aws-sdk/client-dynamodb";
+import {validateAuth, getResponse, refreshToken, RequireTwitchAuthError, ApiError} from "../opt/nodejs/utils.mjs";
+import {map, indexBy} from "underscore";
 
 const client = new DynamoDBClient({ region: 'us-east-2' });
 
-const getConfig = async (channelId) => {
+const getChannelData = async (channelId) => {
   const result = await client.send(new GetItemCommand({
     TableName: 'Twitch-Ext-StickerStacker-Channels',
     Key: {
@@ -13,30 +13,32 @@ const getConfig = async (channelId) => {
       }
     },
   }));
-  const config = {};
+  const channelData = { channelId: channelId };
   if (!result.Item || !result.Item.token || !result.Item.token.S){
-    config.requireAuth = true;
+    throw new RequireTwitchAuthError();
   } else {
-    const token = JSON.parse(result.Item.token.S);
+    channelData.token = JSON.parse(result.Item.token.S);
     let savedConfig = null;
     if (result.Item && result.Item.config && result.Item.config.S){
       savedConfig = JSON.parse(result.Item.config.S);
     }
-    config.splitPacks = (savedConfig)? (savedConfig.splitPacks || false): false;
-    config.rewards = (savedConfig)? (savedConfig.rewards || []): [];
-    config.rewardDetails = getRewards(token, channelId, map(config.rewards, (reward)=> reward.id));
+    channelData.config = {};
+    channelData.config.splitPacks = (savedConfig)? (savedConfig.splitPacks || false): false;
+    channelData.config.rewards = (savedConfig)? (savedConfig.rewards || {}): {};
+    channelData.rewardDetails = indexBy(await getRewards(channelData), 'id') || {};
   }
-  return config;
+  return channelData;
 };
 
-const getRewards = async (token, channelId, rewardIds) => {
+const getRewards = async (channelData) => {
+  const rewardIds = map(channelData.config.rewards, (reward)=> reward.id);
   if (rewardIds && rewardIds.length) {
     const rewardIdQuery = map(rewardIds, (rewardId) => ('id=' + rewardId)).join('&');
-    const response = await fetch('https://api.twitch.tv/helix/channel_points/custom_rewards?broadcaster_id=' + channelId + '&' + rewardIdQuery, {
+    const response = await fetch('https://api.twitch.tv/helix/channel_points/custom_rewards?broadcaster_id=' + channelData.channelId + '&' + rewardIdQuery, {
       method: 'GET',
       headers: {
-        'client-id': process.env.client_id,
-        'Authorization': 'Bearer ' + token.access_token
+        'Client-Id': process.env.client_id,
+        'Authorization': 'Bearer ' + channelData.token.access_token
       }
     });
     if (!response.ok) {
@@ -44,58 +46,33 @@ const getRewards = async (token, channelId, rewardIds) => {
         return [];
       }
       if (response.status === 401){
-        const newToken = await refreshToken(channelId, token);
-        return await getRewards(newToken, channelId, rewardIds);
+        channelData.token = await refreshToken(client, channelData.channelId, channelData.token);
+        return await getRewards(channelData);
       }
-      throw new Error(await response.text());
+      throw new ApiError(await response.text(), response.status);
     }
     return await response.json();
   }
   return [];
 }
 
-const refreshToken = async (channelId, token) => {
-  const params = new URLSearchParams();
-  params.append('client_id', process.env.client_id);
-  params.append('client_secret', process.env.client_secret);
-  params.append('grant_type', 'refresh_token');
-  params.append('refresh_token', token.refresh_token);
-  const response = await fetch('https://id.twitch.tv/oauth2/token', {method: 'POST', body: params});
-  if (!response.ok){
-    await registerUserToken(channelId, null);
-    throw new Error(await response.text());//todo make a custom error type for invalid access
-  }
-  const newToken = await response.json();
-  await registerUserToken(channelId, newToken);
-  return newToken;
-}
-
-const registerUserToken = async (channelId, token)=>{
-  await client.send(new UpdateItemCommand({
-    "TableName": "Twitch-Ext-StickerStacker-Channels",
-    "Key": {
-      "channelId": {
-        "S": channelId
-      }
-    },
-    "ExpressionAttributeNames": {
-      "#A": "token"
-    },
-    "ExpressionAttributeValues": {
-      ":A": {
-        "S": (token)? JSON.stringify(token): ''
-      }
-    },
-    "UpdateExpression": "SET #A = :A"
-  }));
-}
-
 export const handler = async (event, context) => {
-  const auth = validateAuth(event.headers.Authorization);
-  if (auth.err) return getResponse(event, {statusCode: 401, body: JSON.stringify(auth)});
-  const body = JSON.parse(event.body);
-  // Get users from database.
-  const config = await getConfig(auth.channel_id);
-  if (!config) return getResponse(event, {statusCode: 500, body: 'Internal Server Error'});
-  return getResponse(event, {statusCode: 200, body: JSON.stringify(config)});
+  try {
+    const auth = validateAuth(event.headers.Authorization);
+    const channelData = await getChannelData(auth.channel_id);
+    return getResponse(event, {statusCode: 200, body: JSON.stringify({
+        splitPacks: channelData.config.splitPacks,
+        rewards: channelData.rewardDetails
+      })});
+  }
+  catch (err){
+    console.error(err);
+    if (err instanceof ApiError){
+      return getResponse(event, {statusCode: err.statusCode, body: err.message});
+    } else if (err instanceof  RequireTwitchAuthError) {
+      return getResponse(event, {statusCode: 200, body: JSON.stringify({requireAuth: true})});
+    } else {
+      return getResponse(event, {statusCode: 500, body: err.message});
+    }
+  }
 };

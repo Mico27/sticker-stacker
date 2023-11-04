@@ -21,7 +21,7 @@ const getUser = async (access_token)=>{
   const response = await fetch('https://api.twitch.tv/helix/users', {
     method: 'GET',
     headers: {
-      'client-id': process.env.client_id,
+      'Client-Id': process.env.client_id,
       'Authorization': 'Bearer ' + access_token
     }
   });
