@@ -591,3 +591,118 @@ body {
     overflow: hidden;
     flex: 1;
 }
+
+.rewards-center-body {
+    max-width: 32rem;
+    min-height: 24.8rem;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.rewards-list {
+    margin-left: -.5rem;
+    margin-right: -.5rem;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    padding-bottom: 1rem !important;
+}
+
+.reward-list-item {
+    margin: 0 .5rem;
+    width: 9.3rem;
+}
+
+.reward-list-item-content {
+    text-align: center;
+}
+
+.reward-visual {
+    border-radius: 0.4rem;
+    display: block;
+    width: 100%;
+    color: inherit;
+    text-align: inherit;
+}
+
+.reward-visual-content {
+    background: #330c6e;
+    height: 9.3rem;
+    width: 9.3rem;
+    -moz-box-align: center;
+    align-items: center;
+    border-radius: 0.4rem;
+    display: flex;
+    flex-direction: column;
+    -moz-box-pack: center;
+    justify-content: center;
+    position: relative;
+    text-align: inherit;
+}
+
+.reward-visual-image {
+    margin-top: 2.5rem;
+    position: absolute;
+    top: 0;
+    transform: translateZ(0);
+    width: 2.8rem;
+    display: flex;
+    -moz-box-pack: center;
+    justify-content: center;
+    text-align: inherit;
+}
+
+.reward-visual-image-content {
+    position: relative;
+    text-align: inherit;
+}
+
+.reward-image {
+    border: none;
+    max-width: 100%;
+    vertical-align: top;
+    text-align: inherit;
+}
+
+.reward-visual-cost {
+    background: rgba(0,0,0,.35);
+    height: 2rem;
+    bottom: 0;
+    -moz-box-align: center;
+    align-items: center;
+    border-radius: 0.2rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    position: absolute;
+    -moz-box-pack: center;
+    justify-content: center;
+    display: flex;
+    color: white;
+    text-align: inherit;
+}
+
+.reward-visual-cost-label {
+    font-size: 1.2rem;
+    text-align: inherit;
+}
+
+.reward-title {
+    padding-top: 0.5rem;
+    text-align: center;
+    white-space: normal;
+    color: inherit;
+}
+
+.reward-title-label {
+    font-size: 1.2rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -moz-box-orient: vertical;
+    word-break: break-word;
+    text-align: center;
+    color: inherit;
+}

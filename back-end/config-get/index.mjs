@@ -52,7 +52,7 @@ const getRewards = async (channelData) => {
       }
       throw new ApiError(await response.text(), response.status);
     }
-    return await response.json();
+    return (await response.json() || {}).data || [];
   }
   return [];
 }

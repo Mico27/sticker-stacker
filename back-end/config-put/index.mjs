@@ -130,7 +130,7 @@ const getRewards = async (channelData, abortOn401) => {
       }
       throw new ApiError(await response.text(), response.status);
     }
-    return await response.json();
+    return (await response.json() || {}).data || [];
   }
   return [];
 }
@@ -206,7 +206,7 @@ const createRemoveCustomRewardWebHooks = async (channelData, rewardId, abortOn40
       },
       transport: {
         method: 'webhook',
-        callback: 'https://localhost/webhooks/remove-reward',
+        callback: 'https://455ngs5mgk.execute-api.us-east-2.amazonaws.com/delete-reward',
         secret: process.env.webhook_secret,
       }
     }),
@@ -239,7 +239,7 @@ const createRewardRedemptionWebHooks = async (channelData, rewardId, abortOn401)
       },
       transport: {
         method: 'webhook',
-        callback: 'https://localhost/webhooks/reward-redemption',
+        callback: 'https://455ngs5mgk.execute-api.us-east-2.amazonaws.com/reward-redemption',
         secret: process.env.webhook_secret,
       }
     }),

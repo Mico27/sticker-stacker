@@ -4,28 +4,25 @@ import Utils from "./Utils";
 const data = require('../data/staticData.json');
 
 const CURRENT_USER_ID = 1;
+const DOMAIN = 'https://455ngs5mgk.execute-api.us-east-2.amazonaws.com';
 
 export default class ApiHandler {
   constructor() {
     this.onInventoryChangedEvent = new EventListener();
     this.onTradeChangedEvent = new EventListener();
-    this.users = [{id: 1, name:'mico27', score:0},{id: 2, name:'bobberWCC', score:0}];
-    this.inventoryItems = {};
+    this.auth = null;
     this.pendingTrades = {};
     this.getCurrentUser = _.memoize(this.getCurrentUser, this.memoizeHash);
     this.getUser = _.memoize(this.getUser, this.memoizeHash);
     this.getUsers = _.memoize(this.getUsers, this.memoizeHash);
-
     this.loadInventoryItems = _.memoize(this.loadInventoryItems, this.memoizeHash);
     this.getInventoryItems = _.memoize(this.getInventoryItems, this.memoizeHash);
     this.getAllScoreThemes = _.memoize(this.getAllScoreThemes, this.memoizeHash);
     this.getScoreThemes = _.memoize(this.getScoreThemes, this.memoizeHash);
     this.getScoreItems = _.memoize(this.getScoreItems, this.memoizeHash);
-
     this.getPendingTrades = _.memoize(this.getPendingTrades, this.memoizeHash);
     this.getTrade = _.memoize(this.getTrade, this.memoizeHash);
     this.onInventoryChanged = _.throttle(this.onInventoryChanged, 1000);
-
   }
 
   memoizeHash(...args){
@@ -34,52 +31,116 @@ export default class ApiHandler {
 
   getCurrentUser() {
     return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(_.find(this.users, (x) => x.id === CURRENT_USER_ID));
-      }, 1000);
+      fetch(DOMAIN + '/user-get', {
+        method: 'GET',
+        headers: {
+          authorization: 'Bearer ' + this.auth.token
+        },
+      }).then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          res.text().then((error) => {
+            throw new Error(error);
+          });
+        }
+      }).then((user) => {
+        resolve(user);
+      }).catch((error) => {
+        console.log(error);
+        resolve(null);
+      });
     });
   }
 
   getUser(userId){
     return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(_.find(this.users, (x)=> x.id === userId));
-      }, 1000);
-    });
-  }
-
-  getUsers(offset, limit) {
-    return new Promise((resolve)=>{
-      setTimeout(() => {
-        const filteredUsers = _.filter(this.users, (user)=> user.id !== CURRENT_USER_ID);
-        if (limit > 0) {
-          resolve({data: filteredUsers.slice(offset, limit + offset), offset: offset});
-        } else if (offset > 0) {
-          resolve({data: filteredUsers.slice(offset), offset: offset});
+      fetch(DOMAIN + '/user-get?user_id=' + userId, {
+        method: 'GET',
+        headers: {
+          authorization: 'Bearer ' + this.auth.token
+        },
+      }).then((res) => {
+        if (res.ok) {
+          return res.json();
         } else {
-          resolve({data: filteredUsers, offset: offset});
+          res.text().then((error) => {
+            throw new Error(error);
+          });
         }
-      }, 1000);
+      }).then((user) => {
+        resolve(user);
+      }).catch((error) => {
+        console.log(error);
+        resolve(null);
+      });
     });
   }
 
-  loadInventoryItems(userId){
-    return new Promise((resolve)=>{
-      setTimeout(() => {
-        this.inventoryItems[userId] = this.inventoryItems[userId] || [];
-        _.forEach(this.inventoryItems[userId], (x)=>{
-          const itemType = data.itemTypes[x.itemId] || {};
+  getUsers(sortKey, nameSearch, exclusiveStartKey) {
+    return new Promise((resolve) => {
+      fetch(DOMAIN + '/users-query', {
+        method: 'POST',
+        headers: {
+          authorization: 'Bearer ' + this.auth.token
+        },
+        body: JSON.stringify({
+          sortKey: sortKey,
+          nameSearch: nameSearch,
+          exclusiveStartKey: exclusiveStartKey,
+        })
+      }).then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          res.text().then((error) => {
+            throw new Error(error);
+          });
+        }
+      }).then((users) => {
+        resolve(users);
+      }).catch((error) => {
+        console.log(error);
+        resolve(null);
+      });
+    });
+  }
+
+  loadInventoryItems(userId) {
+    return new Promise((resolve) => {
+      fetch(DOMAIN + '/inventory-query?user_id=' + userId, {
+        method: 'GET',
+        headers: {
+          authorization: 'Bearer ' + this.auth.token
+        },
+      }).then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          res.text().then((error) => {
+            throw new Error(error);
+          });
+        }
+      }).then((inventory) => {
+        resolve(_.map(inventory, (amount, itemId)=>{
+          const itemType = data.itemTypes[itemId]  || {};
           const rarity = data.rarities[itemType.rarity] || {};
-          x.name = itemType.name;
-          x.rarity = itemType.rarity;
-          x.color = rarity.color;
-          x.code = rarity.code;
-          x.attributes = _.map(itemType.attributes || [], (y)=> data.attributes[y]);
-          x.shiny = rarity.shiny;
-          x.score = rarity.score;
-        });
-        resolve(this.inventoryItems[userId]);
-      }, 1000);
+          return {
+            itemId: itemId,
+            amount: amount,
+            name: itemType.name,
+            rarity: itemType.rarity,
+            color: rarity.color,
+            code: rarity.code,
+            attributes: _.map(itemType.attributes || [], (y)=> data.attributes[y]),
+            shiny: rarity.shiny,
+            score: rarity.score,
+          }
+        }));
+      }).catch((error) => {
+        console.log(error);
+        resolve(null);
+      });
     });
   }
 
@@ -248,21 +309,22 @@ export default class ApiHandler {
     });
   }
 
-  onInventoryChanged(userId){
-    if (userId === CURRENT_USER_ID){
-      this.getCurrentUser.cache = {};
-    } else {
-      this.getUsers.cache = {};
-    }
-    Utils.deleteUserCache(userId, this.getUser.cache);
-    Utils.deleteUserCache(userId, this.loadInventoryItems.cache);
-    Utils.deleteUserCache(userId, this.getInventoryItems.cache);
-    Utils.deleteUserCache(userId, this.getAllScoreThemes.cache);
-    Utils.deleteUserCache(userId, this.getScoreThemes.cache);
-    Utils.deleteUserCache(userId, this.getScoreItems.cache);
-    Utils.deleteUserCache(userId, this.getPendingTrades.cache);
-    Utils.deleteTradeCache(userId, this.getTrade.cache);
-    this.onInventoryChangedEvent.triggerEvent(userId);
+  onInventoryChanged(userIds){
+    this.getUsers.cache = {};
+    _.forEach(userIds, (userId)=>{
+      if (userId === CURRENT_USER_ID){
+        this.getCurrentUser.cache = {};
+      }
+      Utils.deleteUserCache(userId, this.getUser.cache);
+      Utils.deleteUserCache(userId, this.loadInventoryItems.cache);
+      Utils.deleteUserCache(userId, this.getInventoryItems.cache);
+      Utils.deleteUserCache(userId, this.getAllScoreThemes.cache);
+      Utils.deleteUserCache(userId, this.getScoreThemes.cache);
+      Utils.deleteUserCache(userId, this.getScoreItems.cache);
+      Utils.deleteUserCache(userId, this.getPendingTrades.cache);
+      Utils.deleteTradeCache(userId, this.getTrade.cache);
+    });
+    this.onInventoryChangedEvent.triggerEvent(userIds);
   }
 
   onTradeChanged(fromUserId, toUserId){
@@ -301,8 +363,8 @@ export default class ApiHandler {
         this.pendingTrades[toUserId].push(existingTrade);
       }
 
-      existingTrade.fromValid = this.validateTradeItems(fromUserId, fromItems);
-      existingTrade.toValid = this.validateTradeItems(toUserId, toItems);
+      //existingTrade.fromValid = this.validateTradeItems(fromUserId, fromItems);
+      //existingTrade.toValid = this.validateTradeItems(toUserId, toItems);
 
       if (this.tradeChanged(existingTrade, fromItems, toItems)) {
         existingTrade.fromItems = fromItems;
@@ -329,8 +391,8 @@ export default class ApiHandler {
           this.removeTradedItems(toUserId, existingTrade.toItems);
           this.addTradedItems(fromUserId, existingTrade.toItems);
           this.addTradedItems(toUserId, existingTrade.fromItems);
-          this.onInventoryChanged(fromUserId);
-          this.onInventoryChanged(toUserId);
+          //this.onInventoryChanged(fromUserId);
+          //this.onInventoryChanged(toUserId);
         }
       }
       this.onTradeChanged(fromUserId, toUserId);
@@ -375,92 +437,42 @@ export default class ApiHandler {
   }
 
   validateTradeItems(userId, items){
-    const userInventory = this.inventoryItems[userId] || [];
-    return !_.some(items, (x)=> !_.some(userInventory, (y)=> x.itemId === y.itemId && x.amount <= y.amount));
+    return new Promise((resolve) => {
+      this.loadInventoryItems(userId).then((userInventory)=>{
+        resolve(!_.some(items, (x) => !_.some(userInventory, (y) => x.itemId === y.itemId && x.amount <= y.amount)));
+      });
+    });
   }
 
-  removeTradedItems(userId, items){
-    const userInventory = this.inventoryItems[userId];
-    _.forEach(items, (x)=>{
-      const item = _.find(userInventory, (y)=> y.itemId === x.itemId);
-      if (item){
-        item.amount -= x.amount;
-        if (item.amount <= 0){
-          const index = userInventory.indexOf(item);
-          if (index > -1) {
-            userInventory.splice(index, 1);
+  removeTradedItems(userId, items) {
+    this.loadInventoryItems(userId).then((userInventory) => {
+      _.forEach(items, (x) => {
+        const item = _.find(userInventory, (y) => y.itemId === x.itemId);
+        if (item) {
+          item.amount -= x.amount;
+          if (item.amount <= 0) {
+            const index = userInventory.indexOf(item);
+            if (index > -1) {
+              userInventory.splice(index, 1);
+            }
           }
         }
-      }
-    });
-  }
-
-  addTradedItems(userId, items){
-    const userInventory = this.inventoryItems[userId];
-    _.forEach(items, (x)=>{
-      const item = _.find(userInventory, (y)=> y.itemId === x.itemId);
-      if (item){
-        item.amount += x.amount;
-      } else {
-        userInventory.push({
-          itemId: x.itemId,
-          amount: x.amount,
-        });
-      }
-    });
-  }
-
-  addRandomInventoryItems(amount, userId){
-    for (let i = 1; i <= amount; i++) {
-      this.addSingleRandomInventoryItem(userId);
-    }
-    this.onInventoryChanged(userId);
-    this.updateScore(userId).then();
-  }
-
-  addSingleRandomInventoryItem(userId){
-    const roll = Math.random();
-    let acc = 0;
-    const rarity = _.find(data.rarities, (x)=>{
-      if (roll > (1.0 - x.chance) - acc) {
-        return true;
-      }
-      acc += x.chance;
-      return false;
-    });
-    if (!rarity){
-      console.log('Rarity not found for roll: ' + roll);
-      return;
-    }
-    const itemTypes = _.filter(data.itemTypes, (x)=> x.rarity === rarity.id);
-    if (!itemTypes.length){
-      console.log('item types not found for rarity: ' + rarity.id);
-      return;
-    }
-    const itemType = itemTypes[(Math.floor(Math.random() * itemTypes.length))];
-    if (!this.inventoryItems[userId]){
-      this.inventoryItems[userId] = [];
-    }
-    const existingInventoryItem = _.find(this.inventoryItems[userId], (x)=> x.itemId === itemType.id);
-    if (existingInventoryItem){
-      existingInventoryItem.amount += 1;
-    } else {
-      this.inventoryItems[userId].push({
-        itemId: itemType.id,
-        amount: 1,
       });
-    }
+    });
   }
 
-  updateScore(userId){
-    return new Promise((resolve)=>{
-      this.getAllScoreThemes(userId).then((scoreThemes)=>{
-        const user = _.find(this.users, (x)=> x.id === userId);
-        user.score = _.reduce(this.inventoryItems[userId] || [], (total, x)=> {
-          return total + (x.amount * x.score);
-        }, 0);
-        user.score += _.reduce(scoreThemes, (total, x)=> total + x.score, 0);
-        resolve();
+  addTradedItems(userId, items) {
+    this.loadInventoryItems(userId).then((userInventory) => {
+      _.forEach(items, (x) => {
+        const item = _.find(userInventory, (y) => y.itemId === x.itemId);
+        if (item) {
+          item.amount += x.amount;
+        } else {
+          userInventory.push({
+            itemId: x.itemId,
+            amount: x.amount,
+          });
+        }
       });
     });
   }

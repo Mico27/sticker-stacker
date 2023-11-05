@@ -9,7 +9,7 @@ const getAuthCodeToken = async (code)=>{
   params.append('client_secret', process.env.client_secret);
   params.append('code', code);
   params.append('grant_type', 'authorization_code');
-  params.append('redirect_uri', 'http://localhost/twitch-oauth-register');
+  params.append('redirect_uri', 'https://455ngs5mgk.execute-api.us-east-2.amazonaws.com/twitch-oauth-register');
   const response = await fetch('https://id.twitch.tv/oauth2/token', {method: 'POST', body: params});
   if (!response.ok){
     throw new Error(await response.text());

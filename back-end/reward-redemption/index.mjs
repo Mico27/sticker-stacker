@@ -1,11 +1,14 @@
 import { DynamoDBClient, GetItemCommand, UpdateItemCommand, QueryCommand } from "@aws-sdk/client-dynamodb";
-import {getResponse} from "../opt/nodejs/utils.mjs";
-import {find, filter, findKey, reduce, map, min, pick, contains, forEach, omit} from "underscore";
+import {ApiError, getResponse, refreshToken} from "../opt/nodejs/utils.mjs";
+import {find, filter, findKey, reduce, map, min, pick, contains, forEach, omit, uniq} from "underscore";
 import { Buffer } from 'node:buffer';
 import data from "../opt/nodejs/staticData.mjs";
 const { createHmac, timingSafeEqual } = await import('node:crypto');
+import jsonwebtoken from 'jsonwebtoken';
+import fetch from 'node-fetch';
 
 const client = new DynamoDBClient({ region: 'us-east-2' });
+const channelBroadcastCooldowns = {};
 
 // Notification request headers
 const TWITCH_MESSAGE_ID = 'Twitch-Eventsub-Message-Id'.toLowerCase();
@@ -147,6 +150,7 @@ const addSingleRandomInventoryItem = async (channelId, userId, rewardId) => {
   const itemType = itemTypes[(Math.floor(Math.random() * itemTypes.length))];
   await updateInventory(channelId, userId, itemType.id, 1);
   await updateUserScore(channelId, userId);
+  attemptSendUserChangeBroadcast(channelId, userId);
 }
 
 const updateUserScore = async (channelId, userId) => {
@@ -263,6 +267,52 @@ const deleteWebhook = async (channelId, webhookId) => {
     channelData.config.rewards = omit(channelData.config.rewards, (x) => x.redemptionWebHookId === webhookId);
   }
   await updateChannelData(oldChannelData, channelData);
+}
+
+const attemptSendUserChangeBroadcast = (channelId, userId)=> {
+  const now = Date.now();
+  const cooldown = channelBroadcastCooldowns[channelId];
+  if (!cooldown || cooldown.time < now) {
+    const userIds = (cooldown && cooldown.userIds)? uniq([...cooldown.userIds, userId]): [userId];
+    channelBroadcastCooldowns[channelId] = { time: now + 1000 };
+    sendUserChangeBroadcast(channelId, userIds);
+  } else if (!cooldown.trigger) {
+    cooldown.trigger = setTimeout(attemptSendUserChangeBroadcast, now - cooldown.time, channelId, userId);
+  } else {
+    cooldown.userIds = (cooldown.userIds)? uniq([...cooldown.userIds, userId]): [userId];
+  }
+}
+
+const sendUserChangeBroadcast = (channelId, userIds) => {
+  fetch('https://api.twitch.tv/helix/extensions/pubsub', {
+    method: 'POST',
+    headers: {
+      'Client-Id': process.env.client_id,
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + makeServerToken(channelId),
+    },
+    body: JSON.stringify({
+      message: JSON.stringify({
+        type: 'userChange',
+        userIds: userIds,
+      }),
+      broadcaster_id: channelId,
+      targets: ['broadcast'],
+    })
+  }).then(()=>{});
+}
+
+const makeServerToken = (channelId) => {
+  const payload = {
+    exp: Math.floor(Date.now() / 1000) + 30,
+    user_id: process.env.owner_id, // extension owner ID for the call to Twitch PubSub
+    role: 'external',
+    channel_id: channelId,
+    pubsub_perms: {
+      send: ['broadcast'],
+    },
+  };
+  return jsonwebtoken.sign(payload, Buffer.from(process.env.secret, 'base64'), { algorithms: ['HS256'] });
 }
 
 export const handler = async (event) => {
