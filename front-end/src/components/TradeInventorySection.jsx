@@ -46,7 +46,7 @@ export default class TradeInventorySection extends React.Component {
   }
 
   loadUser() {
-    this.context.apiHandler.getUser(this.props.userId || this.context.currentUser.id).then((user) => {
+    this.context.apiHandler.getUser(this.props.userId || this.context.currentUser.userId).then((user) => {
       this.setState({
         user: user,
       });
@@ -54,7 +54,7 @@ export default class TradeInventorySection extends React.Component {
   }
 
   getPageData(currentPage) {
-    return this.context.apiHandler.getInventoryItems(this.props.userId || this.context.currentUser.id,
+    return this.context.apiHandler.getInventoryItems(this.props.userId || this.context.currentUser.userId,
       currentPage * INVENTORY_PAGE_SIZE, INVENTORY_PAGE_SIZE)
   }
 
@@ -64,8 +64,8 @@ export default class TradeInventorySection extends React.Component {
     });
   }
 
-  onInventoryChanged(userId) {
-    if (this.lazyLoader && (this.props.userId || this.context.currentUser.id) === userId) {
+  onInventoryChanged(userIds) {
+    if (this.lazyLoader && _.contains(userIds, this.props.userId || this.context.currentUser.userId)) {
       this.lazyLoader.reset();
     }
   }
@@ -78,7 +78,7 @@ export default class TradeInventorySection extends React.Component {
     return (
       <div className="inventory">
         <div className="inventory-header">
-          <h1>{((user) ? user.name : '?') + '\'s Inventory'}</h1>
+          <h1>{((user) ? user.display_name : '?') + '\'s Inventory'}</h1>
           <div className="inventory-toolbar">
             <button type="button">Filter</button>
             <button type="button">Sort</button>

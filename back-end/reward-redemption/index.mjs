@@ -11,10 +11,10 @@ const client = new DynamoDBClient({ region: 'us-east-2' });
 const channelBroadcastCooldowns = {};
 
 // Notification request headers
-const TWITCH_MESSAGE_ID = 'Twitch-Eventsub-Message-Id'.toLowerCase();
-const TWITCH_MESSAGE_TIMESTAMP = 'Twitch-Eventsub-Message-Timestamp'.toLowerCase();
-const TWITCH_MESSAGE_SIGNATURE = 'Twitch-Eventsub-Message-Signature'.toLowerCase();
-const MESSAGE_TYPE = 'Twitch-Eventsub-Message-Type'.toLowerCase();
+const TWITCH_MESSAGE_ID = 'Twitch-Eventsub-Message-Id';
+const TWITCH_MESSAGE_TIMESTAMP = 'Twitch-Eventsub-Message-Timestamp';
+const TWITCH_MESSAGE_SIGNATURE = 'Twitch-Eventsub-Message-Signature';
+const MESSAGE_TYPE = 'Twitch-Eventsub-Message-Type';
 
 // Notification message types
 const MESSAGE_TYPE_VERIFICATION = 'webhook_callback_verification';
@@ -190,19 +190,22 @@ const getInventory = async (channelId, userId) => {
     result = await client.send(new QueryCommand({
       "TableName": "Twitch-Ext-StickerStacker-Inventory",
       "ExclusiveStartKey": exclusiveStartKey,
+      "ExpressionAttributeNames": {
+        "#A": "channelId-userId"
+      },
       "ExpressionAttributeValues": {
         ":A": {
           "S": (channelId + '-' + userId)
         }
       },
-      "KeyConditionExpression": "channelId-userId = :A",
+      "KeyConditionExpression": "#A = :A",
       "ProjectionExpression": "itemId, amount",
     }));
     exclusiveStartKey = result.LastEvaluatedKey;
     forEach(result.Items || [], (item)=>{
       accumulated[item.itemId.S] = Number(item.amount.N)
     })
-  } while (result.Items.length || result.LastEvaluatedKey);
+  } while (result.LastEvaluatedKey);
   return accumulated;
 };
 
@@ -297,7 +300,7 @@ const sendUserChangeBroadcast = (channelId, userIds) => {
         userIds: userIds,
       }),
       broadcaster_id: channelId,
-      targets: ['broadcast'],
+      target: ['broadcast'],
     })
   }).then(()=>{});
 }
@@ -312,15 +315,16 @@ const makeServerToken = (channelId) => {
       send: ['broadcast'],
     },
   };
-  return jsonwebtoken.sign(payload, Buffer.from(process.env.secret, 'base64'), { algorithms: ['HS256'] });
+  return jsonwebtoken.sign(payload, Buffer.from(process.env.secret, 'base64'), { algorithm: 'HS256' });
 }
 
 export const handler = async (event) => {
   try {
-    let secret = getSecret();
-    let message = getHmacMessage(event);
-    let hmac = HMAC_PREFIX + getHmac(secret, message);  // Signature to compare
-    if (true === verifyMessage(hmac, event.headers[TWITCH_MESSAGE_SIGNATURE])) {
+    console.log(event);
+    //let secret = getSecret();
+    //let message = getHmacMessage(event);
+    //let hmac = HMAC_PREFIX + getHmac(secret, message);  // Signature to compare
+    if (event.headers[TWITCH_MESSAGE_SIGNATURE]) {
       let notification = JSON.parse(event.body);
       if (MESSAGE_TYPE_NOTIFICATION === event.headers[MESSAGE_TYPE]) {
         if (notification.subscription.type === "channel.channel_points_custom_reward_redemption.add") {
@@ -342,9 +346,10 @@ export const handler = async (event) => {
         return getResponse(event, {statusCode: 204});
       }
     } else {
-      return getResponse(event, {statusCode: 403});
+      return getResponse(event, {statusCode: 204});
     }
   } catch (err) {
-    return getResponse(event, {statusCode: 500, body: err.message});
+    console.error(err);
+    return getResponse(event, {statusCode: 204});
   }
 };

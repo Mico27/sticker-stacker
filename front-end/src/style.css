@@ -60,6 +60,10 @@ body {
     cursor: pointer;
 }
 
+.error-message {
+    color: darkred;
+}
+
 .main-menu {
     position: relative;
     display: flex;
@@ -139,8 +143,18 @@ body {
     flex: 1;
 }
 
-.inventory-header > h1 {
-    text-align: center;
+.inventory-header-profile-image {
+    width: 40px;
+    display: inline;
+    vertical-align: middle;
+    border-radius: 9000px;
+    border: 1px gray solid;
+    margin: 10px;
+}
+
+.inventory-header-display-name {
+    display: inline;
+    vertical-align: middle;
 }
 
 .inventory-toolbar {
@@ -592,9 +606,21 @@ body {
     flex: 1;
 }
 
+.loader-container{
+    margin: auto;
+}
+
+.config-app {
+    background-color: var(--main-bg-color);
+    color: var(--main-font-color);
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    width: 100%;
+}
+
 .rewards-center-body {
     max-width: 32rem;
-    min-height: 24.8rem;
     display: flex !important;
     flex-direction: column !important;
 }

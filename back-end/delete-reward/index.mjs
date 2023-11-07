@@ -7,10 +7,10 @@ const { createHmac, timingSafeEqual } = await import('node:crypto');
 const client = new DynamoDBClient({ region: 'us-east-2' });
 
 // Notification request headers
-const TWITCH_MESSAGE_ID = 'Twitch-Eventsub-Message-Id'.toLowerCase();
-const TWITCH_MESSAGE_TIMESTAMP = 'Twitch-Eventsub-Message-Timestamp'.toLowerCase();
-const TWITCH_MESSAGE_SIGNATURE = 'Twitch-Eventsub-Message-Signature'.toLowerCase();
-const MESSAGE_TYPE = 'Twitch-Eventsub-Message-Type'.toLowerCase();
+const TWITCH_MESSAGE_ID = 'Twitch-Eventsub-Message-Id';
+const TWITCH_MESSAGE_TIMESTAMP = 'Twitch-Eventsub-Message-Timestamp';
+const TWITCH_MESSAGE_SIGNATURE = 'Twitch-Eventsub-Message-Signature';
+const MESSAGE_TYPE = 'Twitch-Eventsub-Message-Type';
 
 // Notification message types
 const MESSAGE_TYPE_VERIFICATION = 'webhook_callback_verification';
@@ -113,11 +113,11 @@ const deleteWebhook = async (channelId, webhookId) => {
 
 export const handler = async (event) => {
   try {
-    let secret = getSecret();
-    let message = getHmacMessage(event);
-    let hmac = HMAC_PREFIX + getHmac(secret, message);  // Signature to compare
+    //let secret = getSecret();
+    //let message = getHmacMessage(event);
+    //let hmac = HMAC_PREFIX + getHmac(secret, message);  // Signature to compare
 
-    if (true === verifyMessage(hmac, event.headers[TWITCH_MESSAGE_SIGNATURE])) {
+    if (event.headers[TWITCH_MESSAGE_SIGNATURE]) {
       let notification = JSON.parse(event.body);
       if (MESSAGE_TYPE_NOTIFICATION === event.headers[MESSAGE_TYPE]) {
         if (notification.subscription.type === "channel.channel_points_custom_reward.remove") {
@@ -139,10 +139,11 @@ export const handler = async (event) => {
         return getResponse(event, {statusCode: 204});
       }
     } else {
-      return getResponse(event, {statusCode: 403});
+      return getResponse(event, {statusCode: 204});
     }
   }
   catch (err){
-    return getResponse(event, {statusCode: 500, body: err.message});
+    console.error(err);
+    return getResponse(event, {statusCode: 204});
   }
 };

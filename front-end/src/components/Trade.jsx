@@ -49,22 +49,22 @@ export default class Trade extends React.Component {
   loadData(){
     const {userId} = this.props;
     const {apiHandler, currentUser} = this.context;
-    apiHandler.getTrade(currentUser.id, userId).then((trade)=>{
+    apiHandler.getTrade(currentUser.userId, userId).then((trade)=>{
       this.setState({
         trade: trade,
       });
     });
   }
 
-  onInventoryChanged(userId){
-    if (this.props.userId  === userId || this.context.currentUser.id === userId) {
+  onInventoryChanged(userIds){
+    if (_.contains(userIds, this.props.userId) || _.contains(userIds, this.context.currentUser.userId)) {
       this.loadData();
     }
   }
 
   onTradeChanged(fromUserId, toUserId){
-    if (this.props.userId  === fromUserId || this.context.currentUser.id === fromUserId ||
-      this.props.userId  === toUserId || this.context.currentUser.id === toUserId) {
+    if (this.props.userId  === fromUserId || this.context.currentUser.userId === fromUserId ||
+      this.props.userId  === toUserId || this.context.currentUser.userId === toUserId) {
       this.loadData();
     }
   }

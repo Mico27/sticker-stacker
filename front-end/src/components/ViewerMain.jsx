@@ -2,52 +2,80 @@ import React from "react";
 import { Outlet, NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 import {CSSTransition} from "react-transition-group";
+import ApiHandler from "../classes/ApiHandler";
+import {SyncLoader} from "react-spinners";
 
 export default class ViewerMain extends React.Component {
 
   static childContextTypes = {
+    apiHandler: PropTypes.object, // Api handler
     currentUser: PropTypes.object, // Current user
-  };
-
-  static contextTypes = {
-    apiHandler: PropTypes.object.isRequired,
   };
 
   constructor(props, context) {
     super(props, context);
     this.state = {
+      loading: true,
+      needUserId: true,
       user: null,
       open: false,
     }
+    this.twitch = window.Twitch ? window.Twitch.ext : null;
+    this.apiHandler = new ApiHandler();
+    this.onRequestUserId = this.onRequestUserId.bind(this);
     this.onInventoryChanged = this.onInventoryChanged.bind(this);
     this.onToggleMenu = this.onToggleMenu.bind(this);
   }
 
   componentDidMount() {
-    this.context.apiHandler.onInventoryChangedEvent.addListener(this.onInventoryChanged);
-    this.loadCurrentUser();
+    if (this.twitch) {
+      this.twitch.onAuthorized((auth) => {
+        this.apiHandler.auth = auth;
+        console.log(auth);
+        this.setState({
+          loading: false,
+          needUserId: !this.twitch.viewer.isLinked,
+        });
+        if (this.twitch.viewer.isLinked){
+          this.loadCurrentUser();
+        }
+      });
+      this.twitch.listen('broadcast', (target, contentType, message)=>{
+        if (message && this.twitch.viewer.isLinked){
+          const apiEvent = JSON.parse(message) || {};
+          if (apiEvent.type === 'userChange' && apiEvent.userIds){
+            this.apiHandler.onInventoryChanged(apiEvent.userIds);
+          }
+        }
+      });
+      //this.twitch.onContext((context,delta)=>{
+      //this.contextUpdate(context,delta)
+      //});
+    }
+    this.apiHandler.onInventoryChangedEvent.addListener(this.onInventoryChanged);
   }
 
   componentWillUnmount() {
-    this.context.apiHandler.onInventoryChangedEvent.removeListener(this.onInventoryChanged);
+    this.apiHandler.onInventoryChangedEvent.removeListener(this.onInventoryChanged);
   }
 
   getChildContext() {
     return {
+      apiHandler: this.apiHandler,
       currentUser: this.state.user,
     };
   }
 
   loadCurrentUser() {
-    this.context.apiHandler.getCurrentUser().then((user) => {
+    this.apiHandler.getCurrentUser().then((user) => {
       this.setState({
         user: user,
       })
     });
   }
 
-  onInventoryChanged(userId) {
-    if (this.state.user && this.state.user.id === userId) {
+  onInventoryChanged(userIds) {
+    if (this.state.user && _.contains(userIds, this.state.user.id)) {
       this.loadCurrentUser();
     }
   }
@@ -58,8 +86,14 @@ export default class ViewerMain extends React.Component {
     });
   }
 
+  onRequestUserId(){
+    if (this.twitch){
+      this.twitch.actions.requestIdShare();
+    }
+  }
+
   render() {
-    const {user, open, mainMenuContainer} = this.state;
+    const {user, open, loading, needUserId} = this.state;
     return (
       <div className="main-menu">
         <CSSTransition
@@ -77,15 +111,22 @@ export default class ViewerMain extends React.Component {
               <NavLink style={{flex: 1}} to="/pending-trades">Trades</NavLink>
             </div>
             {
-              (user) ? <Outlet/> : null
+              (loading)? <div className="loader-container">
+                  <SyncLoader color="#36d7b7"/>
+                </div>:
+                (needUserId)? <div>
+                    <p>You need to share your TwitchID to continue</p>
+                    <button type="button" onClick={this.onRequestUserId}>Share ID</button>
+                  </div>:
+                  (user) ? <Outlet/> : null
             }
           </div>
         </CSSTransition>
         <img className="main-menu-toggle"
              onClick={this.onToggleMenu}
              src={(open) ?
-               (process.env.PUBLIC_URL + '/img/items/funt.png') :
-               (process.env.PUBLIC_URL + '/img/items/funt_shiny.png')}
+               (process.env.PUBLIC_URL + '/img/stickerbook-open.png') :
+               (process.env.PUBLIC_URL + '/img/stickerbook-closed.png')}
         />
       </div>
     );

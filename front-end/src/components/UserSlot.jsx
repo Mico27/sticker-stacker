@@ -42,8 +42,8 @@ export default class UserSlot extends React.Component {
     }
     return (
       <div className="user-slot">
-        <div className="user-slot-thumbnail"><div style={{backgroundColor:'blue'}}/></div>
-        <div className="user-slot-name">{user.name}</div>
+        <div className="user-slot-thumbnail"><img style={{width:'32px'}} alt="User Avatar" src={user.profile_image_url}/></div>
+        <div className="user-slot-name">{user.display_name}</div>
         <div className="user-slot-score">{"Score: " + user.score}</div>
         <div className="user-slot-buttons">
           <button type="button" onClick={this.onListInventory}>Inventory</button>

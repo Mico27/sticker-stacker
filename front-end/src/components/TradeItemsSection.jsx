@@ -44,7 +44,7 @@ export default class TradeItemsSection extends React.Component {
     }
     return (
       <div className="trade-items-section">
-        <h1>{user.name + '\'s offered items'}</h1>
+        <h1>{user.display_name + '\'s offered items'}</h1>
         <div className="trade-items-container">
           {
             _.map(_.range(0, size), (idx)=>{

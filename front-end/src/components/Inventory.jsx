@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import * as _ from "underscore";
 import InventorySlot from "./InventorySlot.jsx";
 import LazyLoader from "./LazyLoader.jsx";
+import Utils from "../classes/Utils";
 
 const INVENTORY_PAGE_SIZE = 16;
 
@@ -27,6 +28,7 @@ export default class Inventory extends React.Component {
     this.getPageData = this.getPageData.bind(this);
     this.onInventoryChanged = this.onInventoryChanged.bind(this);
     this.onAddStickers = this.onAddStickers.bind(this);
+    this.onRefresh = this.onRefresh.bind(this);
   }
 
   componentDidMount() {
@@ -46,7 +48,7 @@ export default class Inventory extends React.Component {
   }
 
   loadUser() {
-    this.context.apiHandler.getUser(this.props.userId || this.context.currentUser.id).then((user) => {
+    this.context.apiHandler.getUser(this.props.userId || this.context.currentUser.userId).then((user) => {
       this.setState({
         user: user,
       });
@@ -54,7 +56,7 @@ export default class Inventory extends React.Component {
   }
 
   getPageData(currentPage) {
-    return this.context.apiHandler.getInventoryItems(this.props.userId || this.context.currentUser.id,
+    return this.context.apiHandler.getInventoryItems(this.props.userId || this.context.currentUser.userId,
       currentPage * INVENTORY_PAGE_SIZE, INVENTORY_PAGE_SIZE)
   }
 
@@ -65,13 +67,19 @@ export default class Inventory extends React.Component {
   }
 
   onAddStickers() {
-    this.context.apiHandler.addRandomInventoryItems(1, this.props.userId || this.context.currentUser.id);
+    this.context.apiHandler.addRandomInventoryItems(1, this.props.userId || this.context.currentUser.userId);
   }
 
-  onInventoryChanged(userId) {
-    if (this.lazyLoader && (this.props.userId || this.context.currentUser.id) === userId) {
+  onInventoryChanged(userIds) {
+    if (this.lazyLoader && _.contains(userIds, this.props.userId || this.context.currentUser.userId)) {
       this.lazyLoader.reset();
     }
+  }
+
+  onRefresh(){
+    const apiHandler = this.context.apiHandler;
+    const userId = this.props.userId || this.context.currentUser.userId;
+    apiHandler.onInventoryChanged([userId]);
   }
 
   render() {
@@ -81,11 +89,14 @@ export default class Inventory extends React.Component {
     return (
       <div className="inventory">
         <div className="inventory-header">
-          <h1>{((user) ? user.name : '?') + '\'s Inventory'}</h1>
+          <div style={{textAlign:'center'}}>
+            {
+              (user)?<img className="inventory-header-profile-image" alt="User Avatar" src={user.profile_image_url}/>: null
+            }
+            <h1 className="inventory-header-display-name">{((user) ? user.display_name : '?') + '\'s Inventory'}</h1>
+          </div>
           <div className="inventory-toolbar">
-            <button type="button" onClick={this.onAddStickers}>Add a Sticker</button>
-            <button type="button">Filter</button>
-            <button type="button">Sort</button>
+            <button type="button" onClick={this.onRefresh}>Refresh</button>
           </div>
         </div>
         <div className="inventory-container">

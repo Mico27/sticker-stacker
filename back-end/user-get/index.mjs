@@ -71,8 +71,11 @@ const getUserDetails = async (channelData, userId, abortOn401)=>{
 
 export const handler = async (event, context) => {
   try {
-    const auth = validateAuth(event.headers.Authorization);
-    const user_id = event.queryStringParameters.user_id || auth.user_id;
+    const auth = validateAuth(event.headers.authorization);
+    const user_id = (event.queryStringParameters && event.queryStringParameters.user_id)?
+      event.queryStringParameters.user_id: auth.user_id;
+    console.log(event);
+    console.log(auth);
     // Get users from database.
     const channelData = await getChannelData(auth.channel_id);
     const user = await getUser(channelData, user_id);

@@ -40,7 +40,7 @@ export default class PendingTrades extends React.Component {
   }
 
   getPageData(currentPage) {
-    return this.context.apiHandler.getPendingTrades(this.props.userId || this.context.currentUser.id,
+    return this.context.apiHandler.getPendingTrades(this.props.userId || this.context.currentUser.userId,
       currentPage * PENDINGTRADES_PAGE_SIZE, PENDINGTRADES_PAGE_SIZE)
   }
 

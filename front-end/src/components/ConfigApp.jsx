@@ -43,7 +43,10 @@ export default class ConfigApp extends React.Component {
         return res.json();
       } else {
         res.text().then((error) => {
-          throw new Error(error);
+          this.setState({
+            error: error,
+            loading: false,
+          });
         });
       }
     }).then((configData) => {
@@ -74,17 +77,20 @@ export default class ConfigApp extends React.Component {
       }),
     }).then((res) => {
       if (res.ok) {
-        return res.json();
+        return res.json().then((configData) => {
+          this.setState({
+            configData: configData,
+            loading: false,
+          });
+        });
       } else {
         res.text().then((error) => {
-          throw new Error(error);
+          this.setState({
+            error: error,
+            loading: false,
+          });
         });
       }
-    }).then((configData) => {
-      this.setState({
-        configData: configData,
-        loading: false,
-      });
     }).catch((error) => {
       this.setState({
         error: error.message,
@@ -109,7 +115,7 @@ export default class ConfigApp extends React.Component {
   onSplitPacksChange(event) {
     const {configData} = this.state;
     if (configData) {
-      configData.splitPacks = event.target.value;
+      configData.splitPacks = event.target.value === "true";
       this.setState({
         configData: configData,
       });
@@ -122,13 +128,14 @@ export default class ConfigApp extends React.Component {
 
   render() {
     const {configData, error, loading} = this.state;
-    if (loading){
-      return <SyncLoader color="#36d7b7"/>;
-    }
     return (
-      <div>
-        {(error) ?
-          <div>{error}</div> :
+      <div className="config-app">
+        {(loading)?
+          <div className="loader-container">
+            <SyncLoader color="#36d7b7"/>
+          </div> :
+          (!configData && error) ?
+            <p className="error-message">{error}</p> :
           (configData) ?
             (configData.requireAuth) ?
               <div>
@@ -136,13 +143,13 @@ export default class ConfigApp extends React.Component {
               </div> :
               <div>
                 <div onChange={this.onSplitPacksChange}>
-                  <input type="radio" value={false} checked={!configData.splitPacks} name="splitPacks"/> create 1
+                  <input type="radio" value="false" checked={!configData.splitPacks} name="splitPacks"/> create 1
                   channel reward (for all packs)
-                  <input type="radio" value={true} checked={configData.splitPacks} name="splitPacks"/> create 3 channel
+                  <input type="radio" value="true" checked={configData.splitPacks} name="splitPacks"/> create 3 channel
                   reward (1 for each packs)
                 </div>
                 {
-                  (configData.rewards)?
+                  (configData.rewards && Object.keys(configData.rewards).length)?
                     <p>Created rewards</p>: null
                 }
                 <div className="rewards-center-body">
@@ -181,6 +188,9 @@ export default class ConfigApp extends React.Component {
                 </div>
                 <div>
                   <button type="button" onClick={this.onSubmitConfig}>Create/update sticker rewards</button>
+                  {
+                    (error)? <p className="error-message">{error}</p>: null
+                  }
                   <p>After the rewards are created by the extension, you can then edit them in the reward manager to modify their images, title or costs.</p>
                   <p>If any of those rewards are deleted or seems to no longer work, you can come back to this configuration page and click on the button again to recreate the missing rewards.</p>
                 </div>

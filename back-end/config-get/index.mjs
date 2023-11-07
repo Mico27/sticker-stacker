@@ -59,7 +59,7 @@ const getRewards = async (channelData) => {
 
 export const handler = async (event, context) => {
   try {
-    const auth = validateAuth(event.headers.Authorization);
+    const auth = validateAuth(event.headers.authorization);
     const channelData = await getChannelData(auth.channel_id);
     return getResponse(event, {statusCode: 200, body: JSON.stringify({
         splitPacks: channelData.config.splitPacks,

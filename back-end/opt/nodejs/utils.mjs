@@ -31,19 +31,30 @@ export const validateAuth = (auth) => {
 
 export const getResponse = (request, response)=> {
   response.headers = { ...(response.headers || {}),
-    ['Access-Control-Allow-Origin']: request.headers.origin
+    'access-control-allow-origin': process.env.allow_origins || '*',
+    'access-control-allow-headers': process.env.allow_headers ||'*',
+    'access-control-allow-methods': process.env.allow_methods ||'*',
   };
   return response;
 }
 
 
 export const refreshToken = async (dbClient, channelId, token) => {
-  const params = new URLSearchParams();
-  params.append('client_id', process.env.client_id);
-  params.append('client_secret', process.env.client_secret);
-  params.append('grant_type', 'refresh_token');
-  params.append('refresh_token', token.refresh_token);
-  const response = await fetch('https://id.twitch.tv/oauth2/token', {method: 'POST', body: params});
+  const params = {
+    'client_id': process.env.client_id,
+    'client_secret': process.env.client_secret,
+    'grant_type': 'refresh_token',
+    'refresh_token': token.refresh_token,
+  };
+  const response = await fetch('https://id.twitch.tv/oauth2/token', {
+    method: 'POST',
+    headers:{
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    body: Object.keys(params)
+      .map((key) => { return encodeURIComponent(key) + '=' + encodeURIComponent(params[key]); })
+      .join('&'),
+  });
   if (!response.ok){
     await registerUserToken(dbClient, channelId, null);
     throw new RequireTwitchAuthError();

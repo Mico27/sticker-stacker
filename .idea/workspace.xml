@@ -2,16 +2,42 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ce12c62-27fc-4c79-9470-c9dff78fcfc2" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/back-end/option/index.mjs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/config-get/index.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/config-get/index.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/config-get/index.zip" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/config-get/index.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/config-put/index.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/config-put/index.mjs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/config-put/index.zip" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/config-put/index.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/delete-reward/index.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/delete-reward/index.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/delete-reward/index.zip" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/delete-reward/index.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/inventory-query/index.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/inventory-query/index.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/inventory-query/index.zip" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/inventory-query/index.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/opt/nodejs.zip" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/opt/nodejs.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/opt/nodejs/utils.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/opt/nodejs/utils.mjs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/reward-redemption/index.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/reward-redemption/index.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/reward-redemption/index.zip" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/reward-redemption/index.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/twitch-oauth-register/index.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/twitch-oauth-register/index.mjs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/twitch-oauth-register/index.zip" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/twitch-oauth-register/index.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/user-get/index.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/user-get/index.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/user-get/index.zip" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/user-get/index.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/users-query/index.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/users-query/index.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/users-query/index.zip" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/users-query/index.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/dist/config.bundle.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/dist/config.bundle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/dist/config.bundle.js.LICENSE.txt" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/dist/config.bundle.js.LICENSE.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/dist/live_config.bundle.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/dist/live_config.bundle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/dist/panel.bundle.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/dist/panel.bundle.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/classes/ApiHandler.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/classes/ApiHandler.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/components/ConfigApp.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/ConfigApp.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/Inventory.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Inventory.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/PendingTrades.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/PendingTrades.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/ScoreDetails.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/ScoreDetails.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/Trade.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Trade.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/TradeInventorySection.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/TradeInventorySection.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/TradeItemsSection.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/TradeItemsSection.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/UserSlot.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/UserSlot.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/Users.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Users.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/components/ViewerApp.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/ViewerApp.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/ViewerMain.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/ViewerMain.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -44,10 +70,12 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2021.1.4\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\extention\sticker-stacker\back-end" />
       <recent name="D:\extention\sticker-stacker\front-end\src\components" />
     </key>
   </component>
@@ -61,7 +89,8 @@
       <updated>1697067319013</updated>
       <workItem from="1697067322846" duration="105078000" />
       <workItem from="1698444434092" duration="46747000" />
-      <workItem from="1699060148687" duration="42159000" />
+      <workItem from="1699060148687" duration="65668000" />
+      <workItem from="1699258012408" duration="21293000" />
     </task>
     <servers />
   </component>

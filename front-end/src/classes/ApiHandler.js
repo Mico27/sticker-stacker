@@ -3,7 +3,6 @@ import EventListener from "./EventListener";
 import Utils from "./Utils";
 const data = require('../data/staticData.json');
 
-const CURRENT_USER_ID = 1;
 const DOMAIN = 'https://455ngs5mgk.execute-api.us-east-2.amazonaws.com';
 
 export default class ApiHandler {
@@ -14,6 +13,7 @@ export default class ApiHandler {
     this.pendingTrades = {};
     this.getCurrentUser = _.memoize(this.getCurrentUser, this.memoizeHash);
     this.getUser = _.memoize(this.getUser, this.memoizeHash);
+    this.loadUsers = _.memoize(this.loadUsers, this.memoizeHash);
     this.getUsers = _.memoize(this.getUsers, this.memoizeHash);
     this.loadInventoryItems = _.memoize(this.loadInventoryItems, this.memoizeHash);
     this.getInventoryItems = _.memoize(this.getInventoryItems, this.memoizeHash);
@@ -22,7 +22,6 @@ export default class ApiHandler {
     this.getScoreItems = _.memoize(this.getScoreItems, this.memoizeHash);
     this.getPendingTrades = _.memoize(this.getPendingTrades, this.memoizeHash);
     this.getTrade = _.memoize(this.getTrade, this.memoizeHash);
-    this.onInventoryChanged = _.throttle(this.onInventoryChanged, 1000);
   }
 
   memoizeHash(...args){
@@ -41,7 +40,8 @@ export default class ApiHandler {
           return res.json();
         } else {
           res.text().then((error) => {
-            throw new Error(error);
+            console.log(error);
+            resolve(null);
           });
         }
       }).then((user) => {
@@ -54,6 +54,9 @@ export default class ApiHandler {
   }
 
   getUser(userId){
+    if (!userId){
+      return this.getCurrentUser();
+    }
     return new Promise((resolve) => {
       fetch(DOMAIN + '/user-get?user_id=' + userId, {
         method: 'GET',
@@ -65,7 +68,8 @@ export default class ApiHandler {
           return res.json();
         } else {
           res.text().then((error) => {
-            throw new Error(error);
+            console.log(error);
+            resolve(null);
           });
         }
       }).then((user) => {
@@ -77,7 +81,7 @@ export default class ApiHandler {
     });
   }
 
-  getUsers(sortKey, nameSearch, exclusiveStartKey) {
+  loadUsers(sortKey, nameSearch, exclusiveStartKey) {
     return new Promise((resolve) => {
       fetch(DOMAIN + '/users-query', {
         method: 'POST',
@@ -94,7 +98,8 @@ export default class ApiHandler {
           return res.json();
         } else {
           res.text().then((error) => {
-            throw new Error(error);
+            console.log(error);
+            resolve(null);
           });
         }
       }).then((users) => {
@@ -102,6 +107,21 @@ export default class ApiHandler {
       }).catch((error) => {
         console.log(error);
         resolve(null);
+      });
+    });
+  }
+
+  getUsers(sortKey, nameSearch, offset, limit) {
+    return new Promise((resolve)=>{
+      this.loadUsers(sortKey, nameSearch).then((result)=>{
+        const users = (result)? result.items || []: [];
+        if (limit > 0) {
+          resolve({data: users.slice(offset, limit + offset), offset: offset});
+        } else if (offset > 0) {
+          resolve({data: users.slice(offset), offset: offset});
+        } else {
+          resolve({data: users, offset: offset});
+        }
       });
     });
   }
@@ -118,7 +138,8 @@ export default class ApiHandler {
           return res.json();
         } else {
           res.text().then((error) => {
-            throw new Error(error);
+            console.log(error);
+            resolve(null);
           });
         }
       }).then((inventory) => {
@@ -297,7 +318,7 @@ export default class ApiHandler {
           existingTrade = {
             fromUserId: fromUserId,
             toUserId: toUserId,
-            toUserName: (toUser)? toUser.name: '???',
+            toUserName: (toUser)? toUser.display_name: '???',
             fromItems: [],
             toItems: [],
             fromAccepted: false,
@@ -310,20 +331,17 @@ export default class ApiHandler {
   }
 
   onInventoryChanged(userIds){
+    this.loadUsers.cache = {};
     this.getUsers.cache = {};
-    _.forEach(userIds, (userId)=>{
-      if (userId === CURRENT_USER_ID){
-        this.getCurrentUser.cache = {};
-      }
-      Utils.deleteUserCache(userId, this.getUser.cache);
-      Utils.deleteUserCache(userId, this.loadInventoryItems.cache);
-      Utils.deleteUserCache(userId, this.getInventoryItems.cache);
-      Utils.deleteUserCache(userId, this.getAllScoreThemes.cache);
-      Utils.deleteUserCache(userId, this.getScoreThemes.cache);
-      Utils.deleteUserCache(userId, this.getScoreItems.cache);
-      Utils.deleteUserCache(userId, this.getPendingTrades.cache);
-      Utils.deleteTradeCache(userId, this.getTrade.cache);
-    });
+    this.getCurrentUser.cache = {};
+    this.getUser.cache = {};
+    this.loadInventoryItems.cache = {};
+    this.getInventoryItems.cache = {};
+    this.getAllScoreThemes.cache = {};
+    this.getScoreThemes.cache = {};
+    this.getScoreItems.cache = {};
+    this.getPendingTrades.cache = {};
+    this.getTrade.cache = {};
     this.onInventoryChangedEvent.triggerEvent(userIds);
   }
 
@@ -353,7 +371,7 @@ export default class ApiHandler {
           id: this.pendingTrades.length,
           fromUserId: fromUserId,
           toUserId: toUserId,
-          toUserName: (toUser)? toUser.name: '???',
+          toUserName: (toUser)? toUser.display_name: '???',
           fromItems: [],
           toItems: [],
           fromAccepted: true,

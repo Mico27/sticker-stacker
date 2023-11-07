@@ -46,7 +46,7 @@ export default class ScoreDetails extends React.Component {
   }
 
   loadItems(){
-    this.context.apiHandler.getScoreItems(this.props.userId || this.context.currentUser.id).then((items)=>{
+    this.context.apiHandler.getScoreItems(this.props.userId || this.context.currentUser.userId).then((items)=>{
       this.setState({
         items: items,
       });
@@ -54,7 +54,7 @@ export default class ScoreDetails extends React.Component {
   }
 
   getPageData(currentPage){
-    return this.context.apiHandler.getScoreThemes(this.props.userId || this.context.currentUser.id,
+    return this.context.apiHandler.getScoreThemes(this.props.userId || this.context.currentUser.userId,
       currentPage * SCOREDETAILS_PAGE_SIZE, SCOREDETAILS_PAGE_SIZE)
   }
 
@@ -64,8 +64,8 @@ export default class ScoreDetails extends React.Component {
     });
   }
 
-  onInventoryChanged(userId){
-    if (this.lazyLoader && (this.props.userId || this.context.currentUser.id) === userId) {
+  onInventoryChanged(userIds){
+    if (this.lazyLoader && _.contains(userIds, (this.props.userId || this.context.currentUser.userId))) {
       this.loadItems();
       this.lazyLoader.reset();
     }

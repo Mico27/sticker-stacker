@@ -7,11 +7,20 @@ let appAccessToken = null;
 
 const getAppAccessToken = async ()=>{
   if (!appAccessToken) {
-    const params = new URLSearchParams();
-    params.append('client_id', process.env.client_id);
-    params.append('client_secret', process.env.client_secret);
-    params.append('grant_type', 'client_credentials');
-    const response = await fetch('https://id.twitch.tv/oauth2/token', {method: 'POST', body: params});
+    const params = {
+      'client_id': process.env.client_id,
+      'client_secret': process.env.client_secret,
+      'grant_type': 'client_credentials',
+    };
+    const response = await fetch('https://id.twitch.tv/oauth2/token', {
+      method: 'POST',
+      headers:{
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+      },
+      body: Object.keys(params)
+        .map((key) => { return encodeURIComponent(key) + '=' + encodeURIComponent(params[key]); })
+        .join('&'),
+    });
     if (!response.ok) {
       throw new Error(await response.text());
     }
@@ -152,7 +161,8 @@ const createReward = async (channelData, pack, abortOn401) => {
     }
     throw new ApiError(await response.text(), response.status);
   }
-  const newReward = await response.json();
+  const json = await response.json();
+  const newReward = (json && json.data)? json.data[0]: {};
   newReward.pack = pack;
   return newReward;
 }
@@ -262,7 +272,7 @@ const createRewardRedemptionWebHooks = async (channelData, rewardId, abortOn401)
 export const handler = async (event, context) => {
   try
   {
-    const auth = validateAuth(event.headers.Authorization);
+    const auth = validateAuth(event.headers.authorization);
     const body = JSON.parse(event.body);
     const channelData = await getChannelData(auth.channel_id);
     const oldChannelData = JSON.parse(JSON.stringify(channelData));

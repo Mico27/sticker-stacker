@@ -12,26 +12,30 @@ const getInventory = async (channelId, userId) => {
     result = await client.send(new QueryCommand({
       "TableName": "Twitch-Ext-StickerStacker-Inventory",
       "ExclusiveStartKey": exclusiveStartKey,
+      "ExpressionAttributeNames": {
+        "#A": "channelId-userId"
+      },
       "ExpressionAttributeValues": {
         ":A": {
           "S": (channelId + '-' + userId)
         }
       },
-      "KeyConditionExpression": "channelId-userId = :A",
+      "KeyConditionExpression": "#A = :A",
       "ProjectionExpression": "itemId, amount",
     }));
     exclusiveStartKey = result.LastEvaluatedKey;
     forEach(result.Items || [], (item)=>{
       accumulated[item.itemId.S] = Number(item.amount.N)
     })
-  } while (result.Items.length || result.LastEvaluatedKey);
+  } while (result.LastEvaluatedKey);
   return accumulated;
 };
 
 export const handler = async (event, context) => {
   try {
-    const auth = validateAuth(event.headers.Authorization);
-    const user_id = event.queryStringParameters.user_id || auth.user_id;
+    const auth = validateAuth(event.headers.authorization);
+    const user_id = (event.queryStringParameters && event.queryStringParameters.user_id)?
+      event.queryStringParameters.user_id: auth.user_id;
     const inventory = await getInventory(auth.channel_id, user_id);
     return getResponse(event, {statusCode: 200, body: JSON.stringify(inventory)});
   }

@@ -7,6 +7,7 @@ import Inventory from "./Inventory.jsx";
 import Modal from "./Modal.jsx";
 import ScoreDetails from "./ScoreDetails.jsx";
 import Trade from "./Trade.jsx";
+import Utils from "../classes/Utils";
 
 const USERS_PAGE_SIZE = 8;
 
@@ -46,7 +47,7 @@ export default class Users extends React.Component {
   }
 
   getPageData(currentPage) {
-    return this.context.apiHandler.getUsers(currentPage * USERS_PAGE_SIZE, USERS_PAGE_SIZE)
+    return this.context.apiHandler.getUsers('score', '', currentPage * USERS_PAGE_SIZE, USERS_PAGE_SIZE)
   }
 
   onLoaded(data) {

@@ -36,14 +36,16 @@ const getUsers = async (channelData, sortKey, nameSearch, exclusiveStartKey) => 
       'S': nameSearch
     };
   }
-  const result = await client.send(new QueryCommand({
+  const command = {
     TableName: 'Twitch-Ext-StickerStacker-Users',
     IndexName: (sortKey) ? (sortKey + '-index') : undefined,
     ExclusiveStartKey: exclusiveStartKey,
     Limit: 100,
     KeyConditionExpression: keyConditionExpression,
     ExpressionAttributeValues: expressionAttributeValues,
-  }));
+  };
+  console.log(command);
+  const result = await client.send(new QueryCommand(command));
   const items = (result.Items || []);
   const userIds = map(items, (item) => item.userId.S);
   if (userIds && userIds.length) {
@@ -89,7 +91,7 @@ const getUserDetails = async (channelData, userIds, abortOn401)=>{
 
 export const handler = async (event, context) => {
   try {
-    const auth = validateAuth(event.headers.Authorization);
+    const auth = validateAuth(event.headers.authorization);
     const body = JSON.parse(event.body) || {};
     // Get users from database.
     const channelData = await getChannelData(auth.channel_id);
