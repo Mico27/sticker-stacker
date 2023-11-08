@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import {CSSTransition} from "react-transition-group";
 import ApiHandler from "../classes/ApiHandler";
 import {SyncLoader} from "react-spinners";
+import * as _ from "underscore";
 
 export default class ViewerMain extends React.Component {
 
@@ -75,7 +76,7 @@ export default class ViewerMain extends React.Component {
   }
 
   onInventoryChanged(userIds) {
-    if (this.state.user && _.contains(userIds, this.state.user.id)) {
+    if (this.state.user && _.contains(userIds, this.state.user.userId)) {
       this.loadCurrentUser();
     }
   }

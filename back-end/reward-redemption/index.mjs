@@ -24,6 +24,32 @@ const MESSAGE_TYPE_REVOCATION = 'revocation';
 // Prepend this string to the HMAC that's created from the message
 const HMAC_PREFIX = 'sha256=';
 
+let appAccessToken = null;
+
+const getAppAccessToken = async ()=>{
+  if (!appAccessToken) {
+    const params = {
+      'client_id': process.env.client_id,
+      'client_secret': process.env.client_secret,
+      'grant_type': 'client_credentials',
+    };
+    const response = await fetch('https://id.twitch.tv/oauth2/token', {
+      method: 'POST',
+      headers:{
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+      },
+      body: Object.keys(params)
+        .map((key) => { return encodeURIComponent(key) + '=' + encodeURIComponent(params[key]); })
+        .join('&'),
+    });
+    if (!response.ok) {
+      throw new Error(await response.text());
+    }
+    appAccessToken = await response.json();
+  }
+  return appAccessToken;
+}
+
 const getSecret = () => {
   // TODO: Get secret from secure storage. This is the secret you pass
   // when you subscribed to the event.
@@ -120,11 +146,20 @@ const updateInventory = async (channelId, userId, itemId, amount) => {
   }));
 };
 
-const addSingleRandomInventoryItem = async (channelId, userId, rewardId) => {
+const addSingleRandomInventoryItem = async (channelId, userId, redemptionWebHookId) => {
   const channelData = await getChannelData(channelId);
   let pack = null;
   if (channelData.config && channelData.config.rewards){
-    pack = findKey(channelData.config.rewards, (x) => x.id === rewardId);
+    pack = findKey(channelData.config.rewards, (x) => x.redemptionWebHookId === redemptionWebHookId);
+    if (!pack){
+      await revokeWebhook(channelData, redemptionWebHookId);
+      return;
+    } else if (pack === 'any'){
+      pack = null;
+    }
+  } else {
+    await revokeWebhook(channelData, redemptionWebHookId);
+    return;
   }
   const roll = Math.random();
   let acc = 0;
@@ -272,6 +307,24 @@ const deleteWebhook = async (channelId, webhookId) => {
   await updateChannelData(oldChannelData, channelData);
 }
 
+const revokeWebhook = async (channelData, webhookId, abortOn401)=>{
+  const appToken = await getAppAccessToken();
+  const response = await fetch('https://api.twitch.tv/helix/eventsub/subscriptions?id=' + webhookId, {
+    method: 'DELETE',
+    headers: {
+      'Client-Id': process.env.client_id,
+      'Authorization': 'Bearer ' + appToken.access_token
+    }
+  });
+  if (!response.ok){
+    if (response.status === 401 && !abortOn401){
+      appAccessToken = null;
+      return await revokeWebhook(channelData, webhookId, true);
+    }
+    throw new ApiError(await response.text(), response.status);
+  }
+}
+
 const attemptSendUserChangeBroadcast = (channelId, userId)=> {
   const now = Date.now();
   const cooldown = channelBroadcastCooldowns[channelId];
@@ -328,7 +381,7 @@ export const handler = async (event) => {
       let notification = JSON.parse(event.body);
       if (MESSAGE_TYPE_NOTIFICATION === event.headers[MESSAGE_TYPE]) {
         if (notification.subscription.type === "channel.channel_points_custom_reward_redemption.add") {
-          await addSingleRandomInventoryItem(notification.event.broadcaster_user_id, notification.event.user_id, notification.event.reward.id);
+          await addSingleRandomInventoryItem(notification.event.broadcaster_user_id, notification.event.user_id, notification.subscription.id);
         }
         return getResponse(event, {statusCode: 204});
       } else if (MESSAGE_TYPE_VERIFICATION === event.headers[MESSAGE_TYPE]) {

@@ -19,19 +19,19 @@ export default class UserSlot extends React.Component {
 
   onListInventory(){
     if (this.props.onListInventory){
-      this.props.onListInventory(this.props.user.id);
+      this.props.onListInventory(this.props.user.userId);
     }
   }
 
   onScoreDetails(){
     if (this.props.onScoreDetails){
-      this.props.onScoreDetails(this.props.user.id);
+      this.props.onScoreDetails(this.props.user.userId);
     }
   }
 
   onTrade(){
     if (this.props.onTrade){
-      this.props.onTrade(this.props.user.id);
+      this.props.onTrade(this.props.user.userId);
     }
   }
 
