@@ -45,6 +45,7 @@ export default class ApiHandler {
           });
         }
       }).then((user) => {
+        this.currentUserId = (user)? user.userId: 0;
         resolve(user);
       }).catch((error) => {
         console.log(error);
@@ -333,21 +334,24 @@ export default class ApiHandler {
   onInventoryChanged(userIds){
     this.loadUsers.cache = {};
     this.getUsers.cache = {};
-    this.getCurrentUser.cache = {};
-    this.getUser.cache = {};
-    this.loadInventoryItems.cache = {};
-    this.getInventoryItems.cache = {};
-    this.getAllScoreThemes.cache = {};
-    this.getScoreThemes.cache = {};
-    this.getScoreItems.cache = {};
-    this.getPendingTrades.cache = {};
-    this.getTrade.cache = {};
+    _.forEach(userIds, (userId)=>{
+      if (userId === this.currentUserId){
+        this.getCurrentUser.cache = {};
+      }
+      Utils.deleteUserCache(userId, this.getUser.cache);
+      Utils.deleteUserCache(userId, this.loadInventoryItems.cache);
+      Utils.deleteUserCache(userId, this.getInventoryItems.cache);
+      Utils.deleteUserCache(userId, this.getAllScoreThemes.cache);
+      Utils.deleteUserCache(userId, this.getScoreThemes.cache);
+      Utils.deleteUserCache(userId, this.getScoreItems.cache);
+      Utils.deleteUserCache(userId, this.getPendingTrades.cache);
+    });
     this.onInventoryChangedEvent.triggerEvent(userIds);
   }
 
   onTradeChanged(fromUserId, toUserId){
-    Utils.deleteTradeCache(fromUserId, this.getTrade.cache);
-    Utils.deleteTradeCache(toUserId, this.getTrade.cache);
+    Utils.deleteUserCache(fromUserId, this.getTrade.cache);
+    Utils.deleteUserCache(toUserId, this.getTrade.cache);
     Utils.deleteUserCache(fromUserId, this.getPendingTrades.cache);
     Utils.deleteUserCache(toUserId, this.getPendingTrades.cache);
     this.onTradeChangedEvent.triggerEvent(fromUserId, toUserId);

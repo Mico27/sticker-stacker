@@ -6,15 +6,7 @@ export default class Utils {
 
   static deleteUserCache(userId, cache) {
     for (const key in cache)
-      if (key.startsWith('[' + userId + ',') ||
-        key.startsWith('[' + userId + ']'))
-        delete cache[key];
-  }
-
-  static deleteTradeCache(userId, cache) {
-    for (const key in cache)
-      if (key.startsWith('[' + userId + ',') ||
-        key.endsWith(',' + userId + ']'))
+      if (key.indexOf(userId) !== -1)
         delete cache[key];
   }
 }

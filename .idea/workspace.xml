@@ -4,7 +4,12 @@
     <list default="true" id="8ce12c62-27fc-4c79-9470-c9dff78fcfc2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/reward-redemption/index.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/reward-redemption/index.mjs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/UserSlot.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/UserSlot.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/reward-redemption/index.zip" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/reward-redemption/index.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/dist/dist.zip" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/dist/dist.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/dist/live_config.bundle.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/dist/live_config.bundle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/dist/panel.bundle.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/dist/panel.bundle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/classes/ApiHandler.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/classes/ApiHandler.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/classes/Utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/classes/Utils.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/components/ViewerMain.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/ViewerMain.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -59,7 +64,8 @@
       <workItem from="1699060148687" duration="65668000" />
       <workItem from="1699258012408" duration="21991000" />
       <workItem from="1699391099029" duration="73000" />
-      <workItem from="1699398377241" duration="3055000" />
+      <workItem from="1699398377241" duration="3675000" />
+      <workItem from="1699480760052" duration="10090000" />
     </task>
     <servers />
   </component>

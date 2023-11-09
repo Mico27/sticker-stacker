@@ -42,6 +42,7 @@ export default class ViewerMain extends React.Component {
         }
       });
       this.twitch.listen('broadcast', (target, contentType, message)=>{
+        console.log(target, contentType, message);
         if (message && this.twitch.viewer.isLinked){
           const apiEvent = JSON.parse(message) || {};
           if (apiEvent.type === 'userChange' && apiEvent.userIds){
